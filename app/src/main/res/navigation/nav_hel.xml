@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_hel"
+    app:startDestination="@id/toonDataFragment">
+    <fragment
+        android:id="@+id/geefDataInFragment"
+        android:name="be.huyck.huisenergielogger.ui.GeefDataInFragment"
+        android:label="fragment_geef_data_in"
+        tools:layout="@layout/fragment_geef_data_in" >
+        <action
+            android:id="@+id/action_geefDataInFragment_to_toonDataFragment"
+            app:destination="@id/toonDataFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/toonDataFragment"
+        android:name="be.huyck.huisenergielogger.ui.ToonDataFragment"
+        android:label="fragment_toon_data"
+        tools:layout="@layout/fragment_toon_data" >
+        <action
+            android:id="@+id/action_toonDataFragment_to_geefDataInFragment"
+            app:destination="@id/geefDataInFragment" />
+        <action
+            android:id="@+id/action_toonDataFragment_to_updateDataFragment"
+            app:destination="@id/updateDataFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateDataFragment"
+        android:name="be.huyck.huisenergielogger.ui.UpdateDataFragment"
+        android:label="fragment_update_data"
+        tools:layout="@layout/fragment_update_data" >
+        <action
+            android:id="@+id/action_updateDataFragment_to_toonDataFragment"
+            app:destination="@id/toonDataFragment" />
+    </fragment>
+</navigation>

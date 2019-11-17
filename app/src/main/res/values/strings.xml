@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Huis Energie Logger</string>
+
+    <string name="action_login">Log in</string>
+    <string name="action_logout">Log out</string>
+    <string name="action_settings">Instellingen</string>
+    <string name="action_export">Exporteer</string>
+
+
+    <string name="knop_update">Update</string>
+    <string name="knop_delete">Verwijder</string>
+    <string name="dialog_tv_el_meter">Elektriciteit</string>
+    <string name="dialog_tv_ga_meter">Gas</string>
+    <string name="dialog_tv_wa_meter">Water</string>
+    <string name="dialog_tv_pv_meter">Zonnecellen</string>
+    <string name="dialog_tv_tot_huis">Totaalverbruik huis</string>
+    <string name="title_activity_settings">Instellingen</string>
+    <string name="dialog_title">Geef meterstanden</string>
+    <string name="btn_geefdatain">Geef data in</string>
+    <string name="snackbar_delete">Meetdata verwijderd</string>
+    <string name="snackbar_update">Meetdata geupdate</string>
+    <string name="snackbar_toegevoegd">Meetdata toegevoegd</string>
+    <string name="snackbar_export">Gegevens geëxporteerd naar </string>
+    <string name="snackbar_openfile">Open bestand</string>
+
+
+    <!-- Settings Titles: preferences -->
+    <string name="pref_backup_header">Backup</string>
+    <string name="pref_backup_selectie">Backup maken op dit toestel</string>
+    <string name="pref_version_header">Versie</string>
+
+    <!-- Backup Preferences -->
+
+    <!-- <string name="reply_title">Default reply action</string> -->
+
+    <!-- Sync Preferences -->
+    <!-- <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string> -->
+</resources>
