@@ -1,5 +1,5 @@
 # Huis Energie Logger
 
-This Android app is intended to daily register the values of the water, gas, electricity and solar panel meters. The app registers the values and calulates the difference between two input moments. It gives you insight into your periodically energy consumption. 
+Deze android app is bedoeld om dagelijks de meterstanden van water, gas, elektriciteit en zonnepanelen te registreren. Via de meterstanden wordt inzicht gegeven in een periodiek verbruik. Bv. wanneer dagelijks of wekelijks de meterstanden worden ingegevens, wordt daaruit het dag of weekverbruik berekend.
 
 ![](screenshot.png) 
