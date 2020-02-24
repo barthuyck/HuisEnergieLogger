@@ -27,7 +27,7 @@ class DataViewModel : ViewModel() {
     private var auth : FirebaseAuth
 
     init {
-        Log.d(TAGJE, "init doorlopen")
+        //Log.d(TAGJE, "init doorlopen")
         auth = FirebaseAuth.getInstance()
 
     }
@@ -39,7 +39,7 @@ class DataViewModel : ViewModel() {
     }
 
     fun addData(registratieGegevens: RegistratieGegevens){
-        Log.d(TAGJE, "Data ingeven in viewmodel!")
+        //Log.d(TAGJE, "Data ingeven in viewmodel!")
 
         lijstRegistratieGegevens.postValue(lijst)
 

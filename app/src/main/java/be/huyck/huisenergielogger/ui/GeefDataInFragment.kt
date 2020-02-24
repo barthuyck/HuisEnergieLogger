@@ -18,7 +18,7 @@ import be.huyck.huisenergielogger.R
 import kotlinx.android.synthetic.main.fragment_geef_data_in.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import be.huyck.huisenergielogger.ViewModel.DataViewModel
 import be.huyck.huisenergielogger.modellen.RegistratieGegevens
 import com.google.android.material.snackbar.Snackbar
@@ -46,7 +46,7 @@ class GeefDataInFragment : Fragment() {
 
         //viewModel = ViewModelProviders.of(this).get(DataViewModel::class.java)
         this.viewModel = activity?.run {
-            ViewModelProviders.of(this)[DataViewModel::class.java]
+            ViewModelProvider(this)[DataViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
 
         nu = LocalDateTime.now()
@@ -99,7 +99,7 @@ class GeefDataInFragment : Fragment() {
             val maand = nu.monthValue-1
             val jaar = nu.year
 
-            val dpd = DatePickerDialog(context!!, DatePickerDialog.OnDateSetListener { vview, year, monthOfYear, dayOfMonth ->
+            val dpd = DatePickerDialog(context!!, DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
                 var nieuwedag : LocalDateTime = LocalDateTime.of(year.toInt(),monthOfYear.toInt()+1,dayOfMonth.toInt(),nu.hour.toInt(),nu.minute.toInt())
                 if (nieuwedag > LocalDateTime.now()) {
                     nieuwedag = LocalDateTime.now()
@@ -114,7 +114,7 @@ class GeefDataInFragment : Fragment() {
         buttonTime.setOnClickListener(View.OnClickListener {
             val minuut = nu.minute
             val uur = nu.hour
-            val dpd = TimePickerDialog(context, TimePickerDialog.OnTimeSetListener { vview, hourOfDay, minute ->
+            val dpd = TimePickerDialog(context, TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
                 var nieuwedag : LocalDateTime = LocalDateTime.of(nu.year.toInt(),nu.monthValue.toInt(),nu.dayOfMonth.toInt(),hourOfDay,minute)
                 if (nieuwedag > LocalDateTime.now()) {
                     nieuwedag = LocalDateTime.now()

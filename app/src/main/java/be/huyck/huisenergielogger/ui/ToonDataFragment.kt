@@ -7,13 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
+
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.navigation.findNavController
-import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.NavHostFragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import be.huyck.huisenergielogger.R
@@ -21,8 +18,7 @@ import be.huyck.huisenergielogger.ViewModel.DataViewModel
 import be.huyck.huisenergielogger.modellen.RegistratieGegevens
 import be.huyck.huisenergielogger.recycler.RecyclerAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_main.*
+
 import kotlinx.android.synthetic.main.fragment_toon_data.*
 
 
@@ -54,7 +50,7 @@ class ToonDataFragment : Fragment(), RecyclerAdapter.OnGegevensitemListener {
 
         //viewModel = ViewModelProviders.of(this).get(DataViewModel::class.java)
         this.viewModel = activity?.run {
-            ViewModelProviders.of(this)[DataViewModel::class.java]
+            ViewModelProvider(this)[DataViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
         // Use the ViewModel
         // Create the observer which updates the UI.

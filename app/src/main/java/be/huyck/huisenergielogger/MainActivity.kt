@@ -9,7 +9,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 
 import be.huyck.huisenergielogger.ViewModel.DataViewModel
 import java.util.*
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel = ViewModelProviders.of(this)[DataViewModel::class.java]
+        viewModel = ViewModelProvider(this)[DataViewModel::class.java]
         auth = FirebaseAuth.getInstance()
     }
 

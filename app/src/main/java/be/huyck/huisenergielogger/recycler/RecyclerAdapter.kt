@@ -1,24 +1,15 @@
 package be.huyck.huisenergielogger.recycler
 
-import android.content.Context
+
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
-import be.huyck.huisenergielogger.R
 import be.huyck.huisenergielogger.modellen.RegistratieGegevens
 import kotlinx.android.synthetic.main.item_toon_data.view.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-
-
-
-
-
-
 
 
 class RecyclerAdapter(mmonGegevensitemListener : OnGegevensitemListener): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
