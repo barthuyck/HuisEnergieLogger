@@ -46,16 +46,19 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
         //val currentUser = auth.getCurrentUser()
-        if (auth.currentUser != null) {
-            viewModel.loaddata(true)
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        viewModel.backupOpDitToestel = sharedPreferences.getBoolean("backup_op_dit_toestel",true)
+        Log.d(TAGJE,"sharedpref: ${viewModel.backupOpDitToestel}")
 
+
+        if (auth.currentUser != null) {
+            val allesdownloaden = sharedPreferences.getBoolean("datadownload",false)
+            viewModel.loaddata(allesdownloaden)
         }
         else{
             createSignInIntent()
         }
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        viewModel.backupOpDitToestel = sharedPreferences.getBoolean("backup_op_dit_toestel",true)
-        Log.d(TAGJE,"sharedpref: ${viewModel.backupOpDitToestel}")
+
 
         viewModel.bestand = File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS) ,"LocalStoredData.csv")
 
