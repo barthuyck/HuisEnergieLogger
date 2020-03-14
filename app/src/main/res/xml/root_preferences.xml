@@ -22,6 +22,14 @@
             app:title="@string/pref_backup_selectie" />
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/pref_datadownload_header">
+        <SwitchPreferenceCompat
+            app:key="datadownload"
+            app:summaryOn="@string/pref_datadownload_uitleg_on"
+            app:summaryOff="@string/pref_datadownload_uitleg_off"
+            app:title="@string/pref_datadownload_selectie" />
+    </PreferenceCategory>
+
 
     <PreferenceCategory app:title="@string/pref_version_header">
         <Preference
