@@ -121,10 +121,10 @@ class RecyclerAdapter(mmonGegevensitemListener : OnGegevensitemListener): Recycl
         fun bind (rijGegevens: RegistratieGegevens){
             rgdatum.setText(rijGegevens.registratiedatum.format(formatter))
             val huisverbruik = rijGegevens.verschil_pv.toBigDecimal() + rijGegevens.verschil_el.toBigDecimal()
-            rgel.setText(rijGegevens.meterwaarde_el.toString() + " kWh \n (" + rijGegevens.verschil_el.toString() + " kWh)")
-            rggas.setText(rijGegevens.meterwaarde_ga.toString() + " m³ \n(" +  rijGegevens.verschil_ga.toString() + " m³)")
-            rgwater.setText(rijGegevens.meterwaarde_wa.toString() + " m³ \n(" + rijGegevens.verschil_wa.toString() + " m³)")
-            rgzon.setText(rijGegevens.meterwaarde_pv.toString() + " kWh \n(" +  rijGegevens.verschil_pv.toString() + " kWh)")
+            rgel.setText(rijGegevens.meterwaarde_el.toString() + " kWh \n(Δ: " + rijGegevens.verschil_el.toString() + " kWh)")
+            rggas.setText(rijGegevens.meterwaarde_ga.toString() + " m³ \n(Δ: " +  rijGegevens.verschil_ga.toString() + " m³)")
+            rgwater.setText(rijGegevens.meterwaarde_wa.toString() + " m³ \n(Δ: " + rijGegevens.verschil_wa.toString() + " m³)")
+            rgzon.setText(rijGegevens.meterwaarde_pv.toString() + " kWh \n(Δ: " +  rijGegevens.verschil_pv.toString() + " kWh)")
             rghuis.setText(huisverbruik.setScale(1).toString() + " kWh")
         }
     }
