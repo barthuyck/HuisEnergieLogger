@@ -1,6 +1,5 @@
 package be.huyck.huisenergielogger.ui
 
-
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -22,9 +21,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_toon_data.*
 
 
-/**
- * A simple [Fragment] subclass.
- */
+
 
 class ToonDataFragment : Fragment(), RecyclerAdapter.OnGegevensitemListener {
     private lateinit var gegevensadapter : RecyclerAdapter
