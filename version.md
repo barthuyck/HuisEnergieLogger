@@ -29,6 +29,9 @@
 - correct text error
 - correct github link
 
-3.3.0.3
+3.3.0.4
 - landscape modus
+
+3.4.0.0
+- adapt background color for weekend days
 

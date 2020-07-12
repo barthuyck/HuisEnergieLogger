@@ -1,11 +1,14 @@
 package be.huyck.huisenergielogger.recycler
 
 
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import be.huyck.huisenergielogger.R
 import be.huyck.huisenergielogger.modellen.RegistratieGegevens
 import kotlinx.android.synthetic.main.item_toon_data.view.*
 import java.time.LocalDateTime
@@ -108,6 +111,7 @@ class RecyclerAdapter(mmonGegevensitemListener : OnGegevensitemListener): Recycl
         private val rgzon = itemView.tvpv
         private val rghuis = itemView.tvhuis
         private val formatter = DateTimeFormatter.ofPattern("E dd/MM/yyyy HH:mm")
+        private val weekdagformatter = DateTimeFormatter.ofPattern("e")
 
         init {
             this.mListener = onGegevensitemListener
@@ -126,6 +130,12 @@ class RecyclerAdapter(mmonGegevensitemListener : OnGegevensitemListener): Recycl
             rgwater.setText(rijGegevens.meterwaarde_wa.toString() + " m³ \n(Δ: " + rijGegevens.verschil_wa.toString() + " m³)")
             rgzon.setText(rijGegevens.meterwaarde_pv.toString() + " kWh \n(Δ: " +  rijGegevens.verschil_pv.toString() + " kWh)")
             rghuis.setText(huisverbruik.setScale(1).toString() + " kWh")
+            val dagvandeweek = rijGegevens.registratiedatum.format(weekdagformatter).toInt()
+            if(dagvandeweek>5){
+                //CardView card = itemView.findViewById(R.id.toonDataFragment. );
+                itemView.cardviewkaart.setCardBackgroundColor(Color.LTGRAY);// .rgb(205,220,57));
+            }
+
         }
     }
 

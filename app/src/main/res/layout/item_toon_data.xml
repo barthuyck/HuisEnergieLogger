@@ -13,11 +13,13 @@
 
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="5dp"
+        android:id="@+id/cardviewkaart">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:id="@+id/cardlayout">
 
 
             <TextView
