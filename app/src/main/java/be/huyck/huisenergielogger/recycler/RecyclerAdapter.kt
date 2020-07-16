@@ -1,6 +1,7 @@
 package be.huyck.huisenergielogger.recycler
 
 
+import android.content.Context
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import be.huyck.huisenergielogger.modellen.RegistratieGegevens
 import kotlinx.android.synthetic.main.item_toon_data.view.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import javax.xml.namespace.NamespaceContext
 
 
 class RecyclerAdapter(mmonGegevensitemListener : OnGegevensitemListener): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -101,7 +103,7 @@ class RecyclerAdapter(mmonGegevensitemListener : OnGegevensitemListener): Recycl
 
     }
 
-    class RijGegevensViewHolder constructor( itemView: View, onGegevensitemListener : OnGegevensitemListener ): RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    class RijGegevensViewHolder constructor( itemView: View, onGegevensitemListener : OnGegevensitemListener): RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
         private var mListener : OnGegevensitemListener
         private val rgdatum = itemView.tvdatum
@@ -125,17 +127,32 @@ class RecyclerAdapter(mmonGegevensitemListener : OnGegevensitemListener): Recycl
         fun bind (rijGegevens: RegistratieGegevens){
             rgdatum.setText(rijGegevens.registratiedatum.format(formatter))
             val huisverbruik = rijGegevens.verschil_pv.toBigDecimal() + rijGegevens.verschil_el.toBigDecimal()
-            rgel.setText(rijGegevens.meterwaarde_el.toString() + " kWh \n(Δ: " + rijGegevens.verschil_el.toString() + " kWh)")
-            rggas.setText(rijGegevens.meterwaarde_ga.toString() + " m³ \n(Δ: " +  rijGegevens.verschil_ga.toString() + " m³)")
-            rgwater.setText(rijGegevens.meterwaarde_wa.toString() + " m³ \n(Δ: " + rijGegevens.verschil_wa.toString() + " m³)")
-            rgzon.setText(rijGegevens.meterwaarde_pv.toString() + " kWh \n(Δ: " +  rijGegevens.verschil_pv.toString() + " kWh)")
-            rghuis.setText(huisverbruik.setScale(1).toString() + " kWh")
-            val dagvandeweek = rijGegevens.registratiedatum.format(weekdagformatter).toInt()
-            if(dagvandeweek>5){
-                //CardView card = itemView.findViewById(R.id.toonDataFragment. );
-                itemView.cardviewkaart.setCardBackgroundColor(Color.LTGRAY);// .rgb(205,220,57));
-            }
 
+            val rgeltxt = rijGegevens.meterwaarde_el.toString() + " kWh \n(Δ: " + rijGegevens.verschil_el.toString() + " kWh)"
+            rgel.setText(rgeltxt)
+            val rggastxt = rijGegevens.meterwaarde_ga.toString() + " m³ \n(Δ: " +  rijGegevens.verschil_ga.toString() + " m³)"
+            rggas.setText(rggastxt)
+            val rgwatertxt = rijGegevens.meterwaarde_wa.toString() + " m³ \n(Δ: " + rijGegevens.verschil_wa.toString() + " m³)"
+            rgwater.setText(rgwatertxt)
+            val rgzontxt = rijGegevens.meterwaarde_pv.toString() + " kWh \n(Δ: " +  rijGegevens.verschil_pv.toString() + " kWh)"
+            rgzon.setText(rgzontxt)
+            val dagvandeweek = rijGegevens.registratiedatum.format(weekdagformatter)
+            val huisverbruiktxt = huisverbruik.setScale(1).toString() + " kWh" // + dagvandeweek.toString()
+            rghuis.setText(huisverbruiktxt)
+            val contextintern = rghuis.context
+
+            //val standaardkleur = itemView.cardviewkaart.cardBackgroundColor
+
+            if(dagvandeweek.toInt()==6){
+                itemView.cardviewkaart.setCardBackgroundColor(contextintern.getColor(R.color.design_default_color_secondary))// .rgb(205,220,57));
+            }
+            else {
+                if (dagvandeweek.toInt() == 7) {
+                    itemView.cardviewkaart.setCardBackgroundColor(contextintern.getColor(R.color.design_default_color_secondary))
+                    //itemView.cardviewkaart.setCardBackgroundColor(Color.LTGRAY)// contextintern.getColor(R.color.colorbackground))// .rgb(205,220,57));
+                } else
+                    itemView.cardviewkaart.setCardBackgroundColor(contextintern.getColor(R.color.design_default_color_background))
+            }
         }
     }
 

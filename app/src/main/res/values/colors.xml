@@ -3,6 +3,6 @@
     <color name="colorPrimary">#8BC34A</color>
     <color name="colorPrimaryDark">#4CAF50</color>
     <color name="colorAccent">#009688</color>
-    <color name="colorBackground">#56FFEB3B</color>
-    <color name="colorWeekend">#CDDC39</color>
+    <color name="design_default_color_secondary">#40FFEB3B</color>
+    <color name="colorSecondary">#8BC34A</color>
 </resources>
