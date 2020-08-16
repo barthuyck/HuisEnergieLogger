@@ -22,6 +22,7 @@
     <string name="snackbar_toegevoegd">Meetdata toegevoegd</string>
     <string name="snackbar_export">Gegevens geëxporteerd naar </string>
     <string name="snackbar_openfile">Open bestand</string>
+    <string name="snacckbar_eindofrecycleviewer">Laatste gegeven, nieuwe worden gedownload indien beschikbaar.</string>
 
 
     <!-- Settings Titles: preferences -->
@@ -31,8 +32,8 @@
 
     <string name="pref_datadownload_header">Data downloaden</string>
     <string name="pref_datadownload_selectie">Download alle data</string>
-    <string name="pref_datadownload_uitleg_on">Download alle data uit de database.</string>
-    <string name="pref_datadownload_uitleg_off">De gedownloade data wordt beperkt tot 31 dagen.</string>
+    <string name="pref_datadownload_uitleg_on">Download alle data uit de database (nuttig voor export).</string>
+    <string name="pref_datadownload_uitleg_off">De gedownloade data wordt beperkt tot gevisualiseerde data.</string>
 
 
 

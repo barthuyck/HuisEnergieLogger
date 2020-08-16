@@ -2,25 +2,22 @@ package be.huyck.huisenergielogger.ui
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-
 import be.huyck.huisenergielogger.R
 import be.huyck.huisenergielogger.ViewModel.DataViewModel
 import be.huyck.huisenergielogger.modellen.RegistratieGegevens
+import be.huyck.huisenergielogger.recycler.OnBottomReachedListener
 import be.huyck.huisenergielogger.recycler.RecyclerAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-
 import kotlinx.android.synthetic.main.fragment_toon_data.*
-
-
 
 
 class ToonDataFragment : Fragment(), RecyclerAdapter.OnGegevensitemListener {
@@ -81,10 +78,19 @@ class ToonDataFragment : Fragment(), RecyclerAdapter.OnGegevensitemListener {
     }
 
     private fun initRecyclerView(){
+        var myLayoutManager = LinearLayoutManager(activity)
+        dataRecycler.layoutManager = myLayoutManager
 
-        dataRecycler.layoutManager = LinearLayoutManager(activity)
         gegevensadapter = RecyclerAdapter(this)
         dataRecycler.adapter = gegevensadapter
+
+        gegevensadapter.setOnBottomReachedListener(object : OnBottomReachedListener {
+            override fun onBottomReached(position: Int) {
+                Toast.makeText(context, R.string.snacckbar_eindofrecycleviewer, Toast.LENGTH_SHORT).show()
+                viewModel.loadnextdata()
+            }
+        })
+
         /*dataRecycler.apply {
             layoutManager = LinearLayoutManager(activity)
             //val topSpacingDecorator = SpacingItemDecoration(10)
@@ -92,6 +98,12 @@ class ToonDataFragment : Fragment(), RecyclerAdapter.OnGegevensitemListener {
             gegevensadapter = RecyclerAdapter(this)
             adapter = gegevensadapter
         }*/
+
+        /*var onScrollListener = RecyclerOnscrollListener(myLayoutManager)
+        //dataRecycler.addOnItemTouchListener()
+        dataRecycler.addOnScrollListener(onScrollListener)
+        Log.d("onscrollistener","op het einde toegevogd")*/
+
     }
 
     override fun onGegevensitemClick(v : View, position: Int){
@@ -102,4 +114,6 @@ class ToonDataFragment : Fragment(), RecyclerAdapter.OnGegevensitemListener {
         navController.navigate(R.id.action_toonDataFragment_to_updateDataFragment)
     }
 
+
 }
+

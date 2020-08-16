@@ -1,31 +1,31 @@
 package be.huyck.huisenergielogger.recycler
 
-
-import android.content.Context
+import android.R
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import be.huyck.huisenergielogger.R
 import be.huyck.huisenergielogger.modellen.RegistratieGegevens
 import kotlinx.android.synthetic.main.item_toon_data.view.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import javax.xml.namespace.NamespaceContext
 
 
 class RecyclerAdapter(mmonGegevensitemListener : OnGegevensitemListener): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var lijst : List<RegistratieGegevens> = ArrayList()
     val TAG = "huisenergielogger.recycleradapter"
     private var monGegevensitemListener : OnGegevensitemListener
+    lateinit var myOnBottomReachedListener: OnBottomReachedListener // einde van de recyclervieuwer
 
     init {
         this.monGegevensitemListener = mmonGegevensitemListener
     }
 
+    fun setOnBottomReachedListener(onBottomReachedListener: OnBottomReachedListener) {
+        this.myOnBottomReachedListener = onBottomReachedListener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return RijGegevensViewHolder(
@@ -40,10 +40,9 @@ class RecyclerAdapter(mmonGegevensitemListener : OnGegevensitemListener): Recycl
                 holder.bind(lijst.get(position))
             }
         }
-        /*holder.itemView.setOnClickListener {
-            Log.d(TAG, "onClick: clicked on: " + lijst.get(position))
-            //Toast.makeText(mContext, mNames.get(position), Toast.LENGTH_SHORT).show()
-        };*/
+        if (position == lijst.size - 3){
+            myOnBottomReachedListener.onBottomReached(position);
+        }
     }
 
     override fun getItemCount(): Int {
@@ -112,7 +111,7 @@ class RecyclerAdapter(mmonGegevensitemListener : OnGegevensitemListener): Recycl
         private val rgwater = itemView.tvwater
         private val rgzon = itemView.tvpv
         private val rghuis = itemView.tvhuis
-        private val formatter = DateTimeFormatter.ofPattern("E dd/MM/yyyy HH:mm")
+        private val formatter = DateTimeFormatter.ofPattern("EE dd/MM/yyyy HH:mm")
         private val weekdagformatter = DateTimeFormatter.ofPattern("e")
 
         init {
@@ -126,6 +125,13 @@ class RecyclerAdapter(mmonGegevensitemListener : OnGegevensitemListener): Recycl
 
         fun bind (rijGegevens: RegistratieGegevens){
             rgdatum.setText(rijGegevens.registratiedatum.format(formatter))
+            val dagvandeweek = rijGegevens.registratiedatum.format(weekdagformatter)
+
+            if(dagvandeweek.toInt()==7) {
+                rgdatum.setTextColor(Color.RED)
+            }
+            else
+                rgdatum.setTextColor(Color.BLUE)
             val huisverbruik = rijGegevens.verschil_pv.toBigDecimal() + rijGegevens.verschil_el.toBigDecimal()
 
             val rgeltxt = rijGegevens.meterwaarde_el.toString() + " kWh \n(Δ: " + rijGegevens.verschil_el.toString() + " kWh)"
@@ -136,23 +142,9 @@ class RecyclerAdapter(mmonGegevensitemListener : OnGegevensitemListener): Recycl
             rgwater.setText(rgwatertxt)
             val rgzontxt = rijGegevens.meterwaarde_pv.toString() + " kWh \n(Δ: " +  rijGegevens.verschil_pv.toString() + " kWh)"
             rgzon.setText(rgzontxt)
-            val dagvandeweek = rijGegevens.registratiedatum.format(weekdagformatter)
-            val huisverbruiktxt = huisverbruik.setScale(1).toString() + " kWh" // + dagvandeweek.toString()
+
+            val huisverbruiktxt = huisverbruik.setScale(1).toString() + " kWh"// + dagvandeweek.toString()
             rghuis.setText(huisverbruiktxt)
-            val contextintern = rghuis.context
-
-            //val standaardkleur = itemView.cardviewkaart.cardBackgroundColor
-
-            if(dagvandeweek.toInt()==6){
-                itemView.cardviewkaart.setCardBackgroundColor(contextintern.getColor(R.color.design_default_color_secondary))// .rgb(205,220,57));
-            }
-            else {
-                if (dagvandeweek.toInt() == 7) {
-                    itemView.cardviewkaart.setCardBackgroundColor(contextintern.getColor(R.color.design_default_color_secondary))
-                    //itemView.cardviewkaart.setCardBackgroundColor(Color.LTGRAY)// contextintern.getColor(R.color.colorbackground))// .rgb(205,220,57));
-                } else
-                    itemView.cardviewkaart.setCardBackgroundColor(contextintern.getColor(R.color.design_default_color_background))
-            }
         }
     }
 
@@ -161,4 +153,9 @@ class RecyclerAdapter(mmonGegevensitemListener : OnGegevensitemListener): Recycl
     }
 
 
+}
+
+interface OnBottomReachedListener {
+    // interface om aan te geven dat einde van de recycleviewer bereikt is
+    fun onBottomReached(position: Int)
 }

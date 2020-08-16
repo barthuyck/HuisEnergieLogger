@@ -32,6 +32,12 @@
 3.3.0.4
 - landscape modus
 
-3.4.0.0
+2.4.0.0
 - adapt background color for weekend days
+
+2.4.0.1/2/3
+- undo background color -> change text color sunday
+
+2.5.0.0
+- add pagination for data
 

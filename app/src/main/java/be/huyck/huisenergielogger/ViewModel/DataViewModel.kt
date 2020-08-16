@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import be.huyck.huisenergielogger.modellen.RegistratieGegevens
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import java.io.File
@@ -25,6 +26,7 @@ class DataViewModel : ViewModel() {
     var TeUpdatenRegistratieGegevens = 0
     lateinit var bestand : File
     private var auth : FirebaseAuth
+    lateinit var lastVisible : DocumentSnapshot
 
     init {
         //Log.d(TAGJE, "init doorlopen")
@@ -152,6 +154,58 @@ class DataViewModel : ViewModel() {
         return user != null
     }
 
+    fun loadnextdata() {
+        Log.d(TAGJE, "volgende set data wordt geladen!")
+        val user = auth.currentUser
+        if (user != null) {
+            val db = FirebaseFirestore.getInstance()
+            val db_useruid = user.uid.toString()
+
+            val docRef = db.collection("users").document(db_useruid).collection("meetgegevens")
+
+            docRef
+                .orderBy("datum", Query.Direction.DESCENDING)
+                .startAfter(lastVisible)
+                .limit(31).get()
+                .addOnSuccessListener { result ->
+                    lastVisible = result.documents[result.size() - 1]
+
+                    for (document in result) {
+                        Log.d(TAGJE, "${document.id} => ${document.data}")
+
+                        val dat = document.get("datum") as Timestamp
+                        val el = document.get("meterwaardeEL") as Double
+                        val ga = document.get("meterwaardeGA") as Double
+                        val wa = document.get("meterwaardeWA") as Double
+                        val pv = document.get("meterwaardePV") as Double
+
+
+                        val reggeg = RegistratieGegevens(
+                            LocalDateTime.ofEpochSecond(dat.seconds, 0, ZoneOffset.UTC),
+                            el,
+                            ga,
+                            wa,
+                            pv,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            document.id
+                        )
+                        Log.d(TAGJE, "reggegevens : ${reggeg}")
+                        lijst.add(reggeg)
+                    }
+                    lijstRegistratieGegevens.postValue(lijst)
+                }
+                .addOnFailureListener { exception ->
+                    Log.d(TAGJE, "Error getting documents: ", exception)
+                }
+
+
+        }
+
+    }
+
     fun loaddata(Allesdownloaden : Boolean){
         val user = auth.currentUser
         if (user != null) {
@@ -164,6 +218,7 @@ class DataViewModel : ViewModel() {
             if (Allesdownloaden) {
                 docRef.orderBy("datum", Query.Direction.DESCENDING).get()
                     .addOnSuccessListener { result ->
+                        lastVisible = result.documents[result.size() - 1]
                         for (document in result) {
                             Log.d(TAGJE, "${document.id} => ${document.data}")
 
@@ -196,8 +251,9 @@ class DataViewModel : ViewModel() {
                     }
             }
             else{
-                docRef.orderBy("datum", Query.Direction.DESCENDING).limit(31).get()
+                docRef.orderBy("datum", Query.Direction.DESCENDING).limit(10).get()
                     .addOnSuccessListener { result ->
+                        lastVisible = result.documents[result.size() - 1]
                         for (document in result) {
                             Log.d(TAGJE, "${document.id} => ${document.data}")
 
