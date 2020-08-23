@@ -40,7 +40,7 @@ class RecyclerAdapter(mmonGegevensitemListener : OnGegevensitemListener): Recycl
                 holder.bind(lijst.get(position))
             }
         }
-        if (position == lijst.size - 3){
+        if (position == lijst.size - 1){
             myOnBottomReachedListener.onBottomReached(position);
         }
     }

@@ -22,7 +22,7 @@
     <string name="snackbar_toegevoegd">Meetdata toegevoegd</string>
     <string name="snackbar_export">Gegevens geëxporteerd naar </string>
     <string name="snackbar_openfile">Open bestand</string>
-    <string name="snacckbar_eindofrecycleviewer">Laatste gegeven, nieuwe worden gedownload indien beschikbaar.</string>
+    <string name="snacckbar_eindofrecycleviewer">Extra gegevens worden gedownload (indien beschikbaar).</string>
 
 
     <!-- Settings Titles: preferences -->
