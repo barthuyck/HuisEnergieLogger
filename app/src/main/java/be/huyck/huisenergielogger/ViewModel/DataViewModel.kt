@@ -157,7 +157,7 @@ class DataViewModel : ViewModel() {
     fun loadnextdata() {
         Log.d(TAGJE, "volgende set data wordt geladen!")
         val user = auth.currentUser
-        if (user != null) {
+        if (user != null && lastVisible != null) {
             val db = FirebaseFirestore.getInstance()
             val db_useruid = user.uid.toString()
 
@@ -168,34 +168,35 @@ class DataViewModel : ViewModel() {
                 .startAfter(lastVisible)
                 .limit(31).get()
                 .addOnSuccessListener { result ->
-                    lastVisible = result.documents[result.size() - 1]
+                    if (result.size()>0) {
+                        lastVisible = result.documents[result.size() - 1]
+                        for (document in result) {
+                            Log.d(TAGJE, "${document.id} => ${document.data}")
 
-                    for (document in result) {
-                        Log.d(TAGJE, "${document.id} => ${document.data}")
-
-                        val dat = document.get("datum") as Timestamp
-                        val el = document.get("meterwaardeEL") as Double
-                        val ga = document.get("meterwaardeGA") as Double
-                        val wa = document.get("meterwaardeWA") as Double
-                        val pv = document.get("meterwaardePV") as Double
+                            val dat = document.get("datum") as Timestamp
+                            val el = document.get("meterwaardeEL") as Double
+                            val ga = document.get("meterwaardeGA") as Double
+                            val wa = document.get("meterwaardeWA") as Double
+                            val pv = document.get("meterwaardePV") as Double
 
 
-                        val reggeg = RegistratieGegevens(
-                            LocalDateTime.ofEpochSecond(dat.seconds, 0, ZoneOffset.UTC),
-                            el,
-                            ga,
-                            wa,
-                            pv,
-                            0.0,
-                            0.0,
-                            0.0,
-                            0.0,
-                            document.id
-                        )
-                        Log.d(TAGJE, "reggegevens : ${reggeg}")
-                        lijst.add(reggeg)
+                            val reggeg = RegistratieGegevens(
+                                LocalDateTime.ofEpochSecond(dat.seconds, 0, ZoneOffset.UTC),
+                                el,
+                                ga,
+                                wa,
+                                pv,
+                                0.0,
+                                0.0,
+                                0.0,
+                                0.0,
+                                document.id
+                            )
+                            Log.d(TAGJE, "reggegevens : ${reggeg}")
+                            lijst.add(reggeg)
+                        }
+                        lijstRegistratieGegevens.postValue(lijst)
                     }
-                    lijstRegistratieGegevens.postValue(lijst)
                 }
                 .addOnFailureListener { exception ->
                     Log.d(TAGJE, "Error getting documents: ", exception)
@@ -218,33 +219,35 @@ class DataViewModel : ViewModel() {
             if (Allesdownloaden) {
                 docRef.orderBy("datum", Query.Direction.DESCENDING).get()
                     .addOnSuccessListener { result ->
-                        lastVisible = result.documents[result.size() - 1]
-                        for (document in result) {
-                            Log.d(TAGJE, "${document.id} => ${document.data}")
+                        if (result.size()>0){
+                            lastVisible = result.documents[result.size() - 1]
+                            for (document in result) {
+                                Log.d(TAGJE, "${document.id} => ${document.data}")
 
-                            val dat = document.get("datum") as Timestamp
-                            val el = document.get("meterwaardeEL") as Double
-                            val ga = document.get("meterwaardeGA") as Double
-                            val wa = document.get("meterwaardeWA") as Double
-                            val pv = document.get("meterwaardePV") as Double
+                                val dat = document.get("datum") as Timestamp
+                                val el = document.get("meterwaardeEL") as Double
+                                val ga = document.get("meterwaardeGA") as Double
+                                val wa = document.get("meterwaardeWA") as Double
+                                val pv = document.get("meterwaardePV") as Double
 
 
-                            val reggeg = RegistratieGegevens(
-                                LocalDateTime.ofEpochSecond(dat.seconds, 0, ZoneOffset.UTC),
-                                el,
-                                ga,
-                                wa,
-                                pv,
-                                0.0,
-                                0.0,
-                                0.0,
-                                0.0,
-                                document.id
-                            )
-                            Log.d(TAGJE, "reggegevens : ${reggeg}")
-                            lijst.add(reggeg)
+                                val reggeg = RegistratieGegevens(
+                                    LocalDateTime.ofEpochSecond(dat.seconds, 0, ZoneOffset.UTC),
+                                    el,
+                                    ga,
+                                    wa,
+                                    pv,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    document.id
+                                )
+                                Log.d(TAGJE, "reggegevens : ${reggeg}")
+                                lijst.add(reggeg)
+                            }
+                            lijstRegistratieGegevens.postValue(lijst)
                         }
-                        lijstRegistratieGegevens.postValue(lijst)
                     }
                     .addOnFailureListener { exception ->
                         Log.d(TAGJE, "Error getting documents: ", exception)
@@ -253,33 +256,35 @@ class DataViewModel : ViewModel() {
             else{
                 docRef.orderBy("datum", Query.Direction.DESCENDING).limit(10).get()
                     .addOnSuccessListener { result ->
-                        lastVisible = result.documents[result.size() - 1]
-                        for (document in result) {
-                            Log.d(TAGJE, "${document.id} => ${document.data}")
+                        if (result.size()>0) {
+                            lastVisible = result.documents[result.size() - 1]
+                            for (document in result) {
+                                Log.d(TAGJE, "${document.id} => ${document.data}")
 
-                            val dat = document.get("datum") as Timestamp
-                            val el = document.get("meterwaardeEL") as Double
-                            val ga = document.get("meterwaardeGA") as Double
-                            val wa = document.get("meterwaardeWA") as Double
-                            val pv = document.get("meterwaardePV") as Double
+                                val dat = document.get("datum") as Timestamp
+                                val el = document.get("meterwaardeEL") as Double
+                                val ga = document.get("meterwaardeGA") as Double
+                                val wa = document.get("meterwaardeWA") as Double
+                                val pv = document.get("meterwaardePV") as Double
 
 
-                            val reggeg = RegistratieGegevens(
-                                LocalDateTime.ofEpochSecond(dat.seconds, 0, ZoneOffset.UTC),
-                                el,
-                                ga,
-                                wa,
-                                pv,
-                                0.0,
-                                0.0,
-                                0.0,
-                                0.0,
-                                document.id
-                            )
-                            Log.d(TAGJE, "reggegevens : ${reggeg}")
-                            lijst.add(reggeg)
+                                val reggeg = RegistratieGegevens(
+                                    LocalDateTime.ofEpochSecond(dat.seconds, 0, ZoneOffset.UTC),
+                                    el,
+                                    ga,
+                                    wa,
+                                    pv,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    document.id
+                                )
+                                Log.d(TAGJE, "reggegevens : ${reggeg}")
+                                lijst.add(reggeg)
+                            }
+                            lijstRegistratieGegevens.postValue(lijst)
                         }
-                        lijstRegistratieGegevens.postValue(lijst)
                     }
                     .addOnFailureListener { exception ->
                         Log.d(TAGJE, "Error getting documents: ", exception)

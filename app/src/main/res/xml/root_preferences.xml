@@ -14,7 +14,8 @@
   ~ limitations under the License.
   -->
 
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory app:title="@string/pref_backup_header">
         <SwitchPreferenceCompat
@@ -36,6 +37,17 @@
             app:key="versie"
             app:title="Versie nummer"
             app:summary="@string/versionName"/>
+    </PreferenceCategory>
+
+    <!-- preference opens url in browser -->
+    <PreferenceCategory app:title="@string/pref_url_category_title">
+        <Preference
+            android:summary="@string/pref_url_summary"
+            android:title="@string/pref_url_title">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/pref_url_data" />
+        </Preference>
     </PreferenceCategory>
 
 
