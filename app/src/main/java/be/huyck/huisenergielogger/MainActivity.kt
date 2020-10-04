@@ -17,6 +17,7 @@ import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 
 import android.os.Environment
+import android.provider.AlarmClock
 
 import androidx.preference.PreferenceManager
 
@@ -58,8 +59,6 @@ class MainActivity : AppCompatActivity() {
         else{
             createSignInIntent()
         }
-
-
         viewModel.bestand = File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS) ,"LocalStoredData.csv")
 
     }
@@ -101,10 +100,14 @@ class MainActivity : AppCompatActivity() {
             val bestandsnaam = "Export" + nu.format(formatterdatumtime) + ".csv"
             viewModel.exportToFile(File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), bestandsnaam))
             val pad = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).toString() + bestandsnaam
-
-                Snackbar.make(getWindow().getDecorView(), getString(R.string.snackbar_export) + pad, Snackbar.LENGTH_LONG)
+            Snackbar.make(getWindow().getDecorView(), getString(R.string.snackbar_export) + pad, Snackbar.LENGTH_LONG)
                 //.setAction(getString(R.string.snackbar_openfile), SnackBarListenerExport(this))
                 .show()
+            true
+        }
+
+        R.id.action_alarm ->{
+            createAlarm("Registreer je meterstanden", 21, 30)
             true
         }
 
@@ -114,6 +117,18 @@ class MainActivity : AppCompatActivity() {
             super.onOptionsItemSelected(item)
         }
     }
+
+    private fun createAlarm(message: String, hour: Int, minutes: Int) {
+        val intent = Intent(AlarmClock.ACTION_SET_ALARM).apply {
+            putExtra(AlarmClock.EXTRA_MESSAGE, message)
+            putExtra(AlarmClock.EXTRA_HOUR, hour)
+            putExtra(AlarmClock.EXTRA_MINUTES, minutes)
+        }
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        }
+    }
+
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         val currentUser = auth.getCurrentUser()
@@ -128,7 +143,7 @@ class MainActivity : AppCompatActivity() {
         return super.onPrepareOptionsMenu(menu)
     }
 
-    fun CreateSettingsIntent()
+    private fun CreateSettingsIntent()
     {
         //startActivity(Intent(Settings.ACTION_SETTINGS)); --> fout, zijn android settings
         startActivity(Intent(this@MainActivity,SettingsActivity::class.java))
@@ -137,7 +152,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // firebase functies
-    fun createSignInIntent() {
+    private fun createSignInIntent() {
         // [START auth_fui_create_intent]
         // Choose authentication providers
         val providers = Arrays.asList(

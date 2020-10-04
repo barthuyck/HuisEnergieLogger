@@ -1,15 +1,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <item
+        android:id="@+id/action_alarm"
+        android:title="@string/action_alarm" />
+    <item
+        android:id="@+id/action_export"
+        android:title="@string/action_export" />
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/action_settings" />
     <item
         android:id="@+id/action_login"
         android:title="@string/action_login" />
     <item
         android:id="@+id/action_logout"
         android:title="@string/action_logout" />
-    <item
-        android:id="@+id/action_settings"
-        android:title="@string/action_settings" />
-    <item
-        android:id="@+id/action_export"
-        android:title="@string/action_export" />
+
 </menu>

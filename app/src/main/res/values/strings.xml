@@ -5,6 +5,7 @@
     <string name="action_logout">Log out</string>
     <string name="action_settings">Instellingen</string>
     <string name="action_export">Exporteer</string>
+    <string name="action_alarm">Alarm instellen</string>
 
 
     <string name="knop_update">Update</string>
@@ -17,12 +18,12 @@
     <string name="title_activity_settings">Instellingen</string>
     <string name="dialog_title">Geef meterstanden</string>
     <string name="btn_geefdatain">Geef data in</string>
-    <string name="snackbar_delete">Meetdata verwijderd</string>
-    <string name="snackbar_update">Meetdata geupdate</string>
-    <string name="snackbar_toegevoegd">Meetdata toegevoegd</string>
-    <string name="snackbar_export">Gegevens geëxporteerd naar </string>
+    <string name="snackbar_delete">Tellergegevens verwijderd</string>
+    <string name="snackbar_update">Tellergegevens geupdate</string>
+    <string name="snackbar_toegevoegd">Tellergegevens toegevoegd</string>
+    <string name="snackbar_export">Tellergegevens geëxporteerd naar</string>
     <string name="snackbar_openfile">Open bestand</string>
-    <string name="snacckbar_eindofrecycleviewer">Extra gegevens worden gedownload (indien beschikbaar).</string>
+    <string name="snacckbar_eindofrecycleviewer">Ouder gegevens ophalen.</string>
 
 
     <!-- Settings Titles: preferences -->
@@ -30,12 +31,10 @@
     <string name="pref_backup_selectie">Backup maken op dit toestel</string>
     <string name="pref_version_header">Versie</string>
 
-    <string name="pref_datadownload_header">Data downloaden</string>
-    <string name="pref_datadownload_selectie">Download alle data</string>
-    <string name="pref_datadownload_uitleg_on">Download alle data uit de database (nuttig voor export).</string>
-    <string name="pref_datadownload_uitleg_off">De gedownloade data wordt beperkt tot gevisualiseerde data.</string>
-
-
+    <string name="pref_datadownload_header">Tellergegevens downloaden</string>
+    <string name="pref_datadownload_selectie">Download alle tellergegevens</string>
+    <string name="pref_datadownload_uitleg_on">Download alle data uit de database (nodig voor export, herstart van de app nodig).</string>
+    <string name="pref_datadownload_uitleg_off">De gedownloade data wordt beperkt.</string>
 
     <!-- Backup Preferences -->
 
