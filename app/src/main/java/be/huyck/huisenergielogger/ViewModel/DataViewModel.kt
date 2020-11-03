@@ -47,7 +47,7 @@ class DataViewModel : ViewModel() {
 
         val user = auth.currentUser
         if (user != null) {
-            Log.d(TAGJE, "gebruiker ingelogd, ...")
+            //Log.d(TAGJE, "gebruiker ingelogd, ...")
             val db = FirebaseFirestore.getInstance()
             val db_useruid = user.uid.toString()
 
@@ -69,49 +69,53 @@ class DataViewModel : ViewModel() {
             )
 
             docRef.set(docData)
-                .addOnSuccessListener { Log.d(TAGJE, "DocumentSnapshot successfully written!") }
-                .addOnFailureListener { e -> Log.w(TAGJE, "Error writing document", e) }
+                .addOnSuccessListener {
+                    //Log.d(TAGJE, "DocumentSnapshot successfully written!")
+                }
+                .addOnFailureListener {
+                        e -> Log.w(TAGJE, "Error writing document", e)
+                }
         }
         else{
-            Log.d(TAGJE, "Geen gebruiker ingelogd, niets geschreven!")
+            //Log.d(TAGJE, "Geen gebruiker ingelogd, niets geschreven!")
         }
         if (backupOpDitToestel){
             SaveDataLocally(bestand,registratieGegevens)
-            Log.d(TAGJE, "Data local opgeslagen!")
+            //Log.d(TAGJE, "Data local opgeslagen!")
         }
     }
 
     fun deleteData(registratieGegevens: RegistratieGegevens){
-        Log.d(TAGJE, "Data updaten in viewmodel!")
+        //Log.d(TAGJE, "Data updaten in viewmodel!")
         lijst.remove(registratieGegevens)
         lijstRegistratieGegevens.postValue(lijst)
 
         val user = auth.currentUser
         if (user != null) {
-            Log.d(TAGJE, "gebruiker ingelogd, ...")
+            //Log.d(TAGJE, "gebruiker ingelogd, ...")
             val db = FirebaseFirestore.getInstance()
             val db_useruid = user.uid.toString()
 
             val docRef = db.collection("users").document(db_useruid).collection("meetgegevens")
                 .document(registratieGegevens.firebaseid).delete()
-                    .addOnSuccessListener { Log.d(TAGJE, "DocumentSnapshot successfully deleted!") }
-                    .addOnFailureListener { e -> Log.w(TAGJE, "Error deleting document", e) }
+//                    .addOnSuccessListener { }//Log.d(TAGJE, "DocumentSnapshot successfully deleted!") }
+//                    .addOnFailureListener { } //e -> Log.w(TAGJE, "Error deleting document", e) }
 
         }
         else{
-            Log.d(TAGJE, "Geen gebruiker ingelogd, niets geschreven!")
+            //Log.d(TAGJE, "Geen gebruiker ingelogd, niets geschreven!")
         }
 
     }
 
     fun updateData(registratieGegevens: RegistratieGegevens){
-        Log.d(TAGJE, "Data updaten in viewmodel!")
+        //Log.d(TAGJE, "Data updaten in viewmodel!")
         lijst[TeUpdatenRegistratieGegevens] = registratieGegevens
         lijstRegistratieGegevens.postValue(lijst)
 
         val user = auth.currentUser
         if (user != null) {
-            Log.d(TAGJE, "gebruiker ingelogd, ...")
+            //Log.d(TAGJE, "gebruiker ingelogd, ...")
             val db = FirebaseFirestore.getInstance()
             val db_useruid = user.uid.toString()
 
@@ -128,15 +132,15 @@ class DataViewModel : ViewModel() {
 
             val docRef = db.collection("users").document(db_useruid).collection("meetgegevens")
                 .document(registratieGegevens.firebaseid).update(updatesdata)
-                .addOnSuccessListener { Log.d(TAGJE, "DocumentSnapshot successfully updatet!") }
-                .addOnFailureListener { e -> Log.w(TAGJE, "Error updating document", e) }
+//                .addOnSuccessListener { }//Log.d(TAGJE, "DocumentSnapshot successfully updatet!") }
+//                .addOnFailureListener { }//e -> Log.w(TAGJE, "Error updating document", e) }
         }
         else{
-            Log.d(TAGJE, "Geen gebruiker ingelogd, niets geschreven!")
+            //Log.d(TAGJE, "Geen gebruiker ingelogd, niets geschreven!")
         }
         if (backupOpDitToestel){
             SaveDataLocally(bestand,registratieGegevens)
-            Log.d(TAGJE, "Data local opgeslagen!")
+            //Log.d(TAGJE, "Data local opgeslagen!")
         }
     }
 
@@ -155,7 +159,7 @@ class DataViewModel : ViewModel() {
     }
 
     fun loadnextdata() {
-        Log.d(TAGJE, "volgende set data wordt geladen!")
+        //Log.d(TAGJE, "volgende set data wordt geladen!")
         val user = auth.currentUser
         if (user != null && lastVisible != null) {
             val db = FirebaseFirestore.getInstance()
@@ -171,7 +175,7 @@ class DataViewModel : ViewModel() {
                     if (result.size()>0) {
                         lastVisible = result.documents[result.size() - 1]
                         for (document in result) {
-                            Log.d(TAGJE, "${document.id} => ${document.data}")
+                            //Log.d(TAGJE, "${document.id} => ${document.data}")
 
                             val dat = document.get("datum") as Timestamp
                             val el = document.get("meterwaardeEL") as Double
@@ -192,15 +196,15 @@ class DataViewModel : ViewModel() {
                                 0.0,
                                 document.id
                             )
-                            Log.d(TAGJE, "reggegevens : ${reggeg}")
+                            //Log.d(TAGJE, "reggegevens : ${reggeg}")
                             lijst.add(reggeg)
                         }
                         lijstRegistratieGegevens.postValue(lijst)
                     }
                 }
-                .addOnFailureListener { exception ->
-                    Log.d(TAGJE, "Error getting documents: ", exception)
-                }
+/*                .addOnFailureListener { exception ->
+                    //Log.d(TAGJE, "Error getting documents: ", exception)
+                }*/
 
 
         }
@@ -222,7 +226,7 @@ class DataViewModel : ViewModel() {
                         if (result.size()>0){
                             lastVisible = result.documents[result.size() - 1]
                             for (document in result) {
-                                Log.d(TAGJE, "${document.id} => ${document.data}")
+                                //Log.d(TAGJE, "${document.id} => ${document.data}")
 
                                 val dat = document.get("datum") as Timestamp
                                 val el = document.get("meterwaardeEL") as Double
@@ -243,15 +247,15 @@ class DataViewModel : ViewModel() {
                                     0.0,
                                     document.id
                                 )
-                                Log.d(TAGJE, "reggegevens : ${reggeg}")
+                                //Log.d(TAGJE, "reggegevens : ${reggeg}")
                                 lijst.add(reggeg)
                             }
                             lijstRegistratieGegevens.postValue(lijst)
                         }
                     }
-                    .addOnFailureListener { exception ->
-                        Log.d(TAGJE, "Error getting documents: ", exception)
-                    }
+/*                    .addOnFailureListener { exception ->
+                        //Log.d(TAGJE, "Error getting documents: ", exception)
+                    }*/
             }
             else{
                 docRef.orderBy("datum", Query.Direction.DESCENDING).limit(10).get()
@@ -259,7 +263,7 @@ class DataViewModel : ViewModel() {
                         if (result.size()>0) {
                             lastVisible = result.documents[result.size() - 1]
                             for (document in result) {
-                                Log.d(TAGJE, "${document.id} => ${document.data}")
+                                //Log.d(TAGJE, "${document.id} => ${document.data}")
 
                                 val dat = document.get("datum") as Timestamp
                                 val el = document.get("meterwaardeEL") as Double
@@ -280,15 +284,15 @@ class DataViewModel : ViewModel() {
                                     0.0,
                                     document.id
                                 )
-                                Log.d(TAGJE, "reggegevens : ${reggeg}")
+                                //Log.d(TAGJE, "reggegevens : ${reggeg}")
                                 lijst.add(reggeg)
                             }
                             lijstRegistratieGegevens.postValue(lijst)
                         }
                     }
-                    .addOnFailureListener { exception ->
-                        Log.d(TAGJE, "Error getting documents: ", exception)
-                    }
+/*                    .addOnFailureListener { exception ->
+                        //Log.d(TAGJE, "Error getting documents: ", exception)
+                    }*/
             }
 
         }
@@ -310,19 +314,19 @@ class DataViewModel : ViewModel() {
             var aanvullen = false
             if (bestand.exists()) {
                 aanvullen = true
-                Log.i(TAGJE, "gegevens aanvullen in bestaand bestand")
+                //Log.i(TAGJE, "gegevens aanvullen in bestaand bestand")
             } else {
-                Log.i(TAGJE, "nieuw bestand maken")
+                //Log.i(TAGJE, "nieuw bestand maken")
             }
 
             fileWriter = FileWriter(bestand, aanvullen)
-            Log.i(TAGJE, bestand.absolutePath)
+            // Log.i(TAGJE, bestand.absolutePath)
             // Log.i(TAGJE, bestand.length().toString())
             if (bestand.length() < 50) {
                 val CSV_HEADER = "Meetmoment,Elektriciteit,Gas,Water,PV"
                 fileWriter.append(CSV_HEADER)
                 fileWriter.append('\n')
-                Log.i(TAGJE, "header toegevoegd")
+                //Log.i(TAGJE, "header toegevoegd")
             }
             val lijstiterator = lijst.iterator()
             lijstiterator.forEach {
@@ -337,16 +341,16 @@ class DataViewModel : ViewModel() {
                 fileWriter.append(',')
                 fileWriter.append(it.meterwaarde_pv.toString())
                 fileWriter.append('\n')
-                Log.i(TAGJE, "gegevens aangevuld")
+                //Log.i(TAGJE, "gegevens aangevuld")
             }
         } catch (e: Exception) {
-            Log.e(TAGJE, "Writing CSV error")
+            //Log.e(TAGJE, "Writing CSV error")
         } finally {
             try {
                 fileWriter!!.flush()
                 fileWriter.close()
             } catch (e: Exception) {
-                Log.e(TAGJE, "file closing error")
+                //Log.e(TAGJE, "file closing error")
             }
         }
     }
@@ -359,18 +363,18 @@ class DataViewModel : ViewModel() {
             var aanvullen = false
             if (bestand.exists()) {
                 aanvullen = true
-                Log.i(TAGJE, "gegevens aanvullen in bestaand bestand")
+                //Log.i(TAGJE, "gegevens aanvullen in bestaand bestand")
             } else {
-                Log.i(TAGJE, "nieuw bestand maken")
+                //Log.i(TAGJE, "nieuw bestand maken")
             }
             fileWriter = FileWriter(bestand, aanvullen)
-            Log.i(TAGJE, bestand.absolutePath)
+            //Log.i(TAGJE, bestand.absolutePath)
             // Log.i(TAGJE, bestand.length().toString())
             if (bestand.length() < 50) {
                 val CSV_HEADER = "Meetmoment,Elektriciteit,Gas,Water,PV"
                 fileWriter.append(CSV_HEADER)
                 fileWriter.append('\n')
-                Log.i(TAGJE, "header toegevoegd")
+                //Log.i(TAGJE, "header toegevoegd")
             }
             //val lijstiterator = lijst.iterator()
             //lijstiterator.forEach {
@@ -385,16 +389,16 @@ class DataViewModel : ViewModel() {
                 fileWriter.append(',')
                 fileWriter.append(registratieGegevens.meterwaarde_pv.toString())
                 fileWriter.append('\n')
-                Log.i(TAGJE, "gegevens aangevuld")
+                //Log.i(TAGJE, "gegevens aangevuld")
             //}
         } catch (e: Exception) {
-            Log.e(TAGJE, "Writing CSV error")
+            //Log.e(TAGJE, "Writing CSV error")
         } finally {
             try {
                 fileWriter!!.flush()
                 fileWriter.close()
             } catch (e: Exception) {
-                Log.e(TAGJE, "file closing error")
+                //Log.e(TAGJE, "file closing error")
             }
         }
     }

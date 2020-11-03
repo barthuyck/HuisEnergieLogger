@@ -51,7 +51,7 @@ class UpdateDataFragment : Fragment() {
 
         nu = LocalDateTime.now()
         val TeUpdaten = viewModel.getTeUpdatenRegistratieGegevens()
-        Log.d(TAGJE,"te updaten: ${TeUpdaten}")
+        //Log.d(TAGJE,"te updaten: ${TeUpdaten}")
 
         EdtEL.setText(TeUpdaten.meterwaarde_el.toString())
         EdtGas.setText(TeUpdaten.meterwaarde_ga.toString())
@@ -69,10 +69,10 @@ class UpdateDataFragment : Fragment() {
             val wa = with(EdtWat) { text.toString().toDouble() }
             val pv = with(EdtPV) { text.toString().toDouble() }
 
-            Log.d(TAGJE,"el: $el")
-            Log.d(TAGJE,"ga: $ga")
-            Log.d(TAGJE,"wa: $wa")
-            Log.d(TAGJE,"pv: $pv")
+            //Log.d(TAGJE,"el: $el")
+            //Log.d(TAGJE,"ga: $ga")
+            //Log.d(TAGJE,"wa: $wa")
+            //Log.d(TAGJE,"pv: $pv")
 
             val ingevoerdeGegevens = RegistratieGegevens(
                 nu,
@@ -85,8 +85,8 @@ class UpdateDataFragment : Fragment() {
                 0.0,
                 0.0,
                 TeUpdaten.firebaseid)
-            Log.d(TAGJE,"gegevens die worden geupdate:")
-            Log.d(TAGJE,ingevoerdeGegevens.toString())
+            //Log.d(TAGJE,"gegevens die worden geupdate:")
+            //Log.d(TAGJE,ingevoerdeGegevens.toString())
             viewModel.updateData(ingevoerdeGegevens)
             val navController = it.findNavController()
             navController.navigate(R.id.toonDataFragment)
@@ -97,8 +97,8 @@ class UpdateDataFragment : Fragment() {
 
         val buttonDelete = view.findViewById(R.id.buttondelete) as Button
         buttonDelete.setOnClickListener(View.OnClickListener {
-            Log.d(TAGJE,"gegevens die worden gedelete:")
-            Log.d(TAGJE,TeUpdaten.toString())
+            //Log.d(TAGJE,"gegevens die worden gedelete:")
+            //Log.d(TAGJE,TeUpdaten.toString())
             viewModel.deleteData(TeUpdaten)
             Snackbar.make(view, getString(R.string.snackbar_delete), Snackbar.LENGTH_LONG)
                 .setAction("Action", null)

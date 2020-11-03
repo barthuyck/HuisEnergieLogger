@@ -7,7 +7,6 @@
     <string name="action_export">Exporteer</string>
     <string name="action_alarm">Alarm instellen</string>
 
-
     <string name="knop_update">Update</string>
     <string name="knop_delete">Verwijder</string>
     <string name="dialog_tv_el_meter">Elektriciteit</string>
@@ -23,7 +22,7 @@
     <string name="snackbar_toegevoegd">Tellergegevens toegevoegd</string>
     <string name="snackbar_export">Tellergegevens geëxporteerd naar</string>
     <string name="snackbar_openfile">Open bestand</string>
-    <string name="snacckbar_eindofrecycleviewer">Ouder gegevens ophalen.</string>
+    <string name="snacckbar_eindofrecycleviewer">Oudere gegevens ophalen.</string>
 
 
     <!-- Settings Titles: preferences -->
