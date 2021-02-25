@@ -1,6 +1,5 @@
 package be.huyck.huisenergielogger.recycler
 
-import android.R
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,11 +8,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import be.huyck.huisenergielogger.modellen.RegistratieGegevens
 import kotlinx.android.synthetic.main.item_toon_data.view.*
+import java.text.DecimalFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
-class RecyclerAdapter(mmonGegevensitemListener : OnGegevensitemListener): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RecyclerAdapter(mmonGegevensitemListener: OnGegevensitemListener): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var lijst : List<RegistratieGegevens> = ArrayList()
     val TAG = "huisenergielogger.recycleradapter"
     private var monGegevensitemListener : OnGegevensitemListener
@@ -29,7 +29,11 @@ class RecyclerAdapter(mmonGegevensitemListener : OnGegevensitemListener): Recycl
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return RijGegevensViewHolder(
-            LayoutInflater.from(parent.context).inflate(be.huyck.huisenergielogger.R.layout.item_toon_data, parent, false),
+            LayoutInflater.from(parent.context).inflate(
+                be.huyck.huisenergielogger.R.layout.item_toon_data,
+                parent,
+                false
+            ),
             monGegevensitemListener
         )
     }
@@ -69,18 +73,19 @@ class RecyclerAdapter(mmonGegevensitemListener : OnGegevensitemListener): Recycl
         )
         if (blogList.size > 0) {
             while (listIterator.hasNext()) {
-                Log.d(TAG,"iterator: ${listIterator}")
+                Log.d(TAG, "iterator: ${listIterator}")
 
                 huidige = listIterator.next()
-                Log.d(TAG,"huidige: ${huidige}")
-                Log.d(TAG,"vorige: ${vorige}")
+                Log.d(TAG, "huidige: ${huidige}")
+                Log.d(TAG, "vorige: ${vorige}")
                 if (listIterator.hasPrevious()) {
                     var tmp =
                         vorige.meterwaarde_el.toBigDecimal() - huidige.meterwaarde_el.toBigDecimal()
                     vorige.verschil_el = tmp.setScale(1).toDouble()
-                    tmp =
-                        vorige.meterwaarde_ga.toBigDecimal() - huidige.meterwaarde_ga.toBigDecimal()
-                    vorige.verschil_ga = tmp.setScale(3).toDouble()
+                    var tmp1 = vorige.meterwaarde_ga - huidige.meterwaarde_ga
+                    Log.d(TAG, "vorige: ${tmp1}")
+
+                    vorige.verschil_ga = tmp1 //df.format(tmp1)
                     tmp =
                         vorige.meterwaarde_wa.toBigDecimal() - huidige.meterwaarde_wa.toBigDecimal()
                     vorige.verschil_wa = tmp.setScale(4).toDouble()
@@ -102,7 +107,10 @@ class RecyclerAdapter(mmonGegevensitemListener : OnGegevensitemListener): Recycl
 
     }
 
-    class RijGegevensViewHolder constructor( itemView: View, onGegevensitemListener : OnGegevensitemListener): RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    class RijGegevensViewHolder constructor(
+        itemView: View,
+        onGegevensitemListener: OnGegevensitemListener
+    ): RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
         private var mListener : OnGegevensitemListener
         private val rgdatum = itemView.tvdatum
@@ -123,7 +131,7 @@ class RecyclerAdapter(mmonGegevensitemListener : OnGegevensitemListener): Recycl
             mListener.onGegevensitemClick(view, adapterPosition)
         }
 
-        fun bind (rijGegevens: RegistratieGegevens){
+        fun bind(rijGegevens: RegistratieGegevens){
             rgdatum.setText(rijGegevens.registratiedatum.format(formatter))
             val dagvandeweek = rijGegevens.registratiedatum.format(weekdagformatter)
 
@@ -134,22 +142,28 @@ class RecyclerAdapter(mmonGegevensitemListener : OnGegevensitemListener): Recycl
                 rgdatum.setTextColor(Color.BLUE)
             val huisverbruik = rijGegevens.verschil_pv.toBigDecimal() + rijGegevens.verschil_el.toBigDecimal()
 
-            val rgeltxt = rijGegevens.meterwaarde_el.toString() + " kWh \n(Δ: " + rijGegevens.verschil_el.toString() + " kWh)"
+            val df_ga = DecimalFormat("###.###")
+
+            val df_el = DecimalFormat("###.###")
+            val df_wa = DecimalFormat("###.###")
+            val df_pv = DecimalFormat("###.#")
+            val rgeltxt = df_el.format(rijGegevens.meterwaarde_el) + " kWh \n(Δ: " + df_el.format(rijGegevens.verschil_el) + " kWh)"
             rgel.setText(rgeltxt)
-            val rggastxt = rijGegevens.meterwaarde_ga.toString() + " m³ \n(Δ: " +  rijGegevens.verschil_ga.toString() + " m³)"
+            val rggastxt = df_ga.format(rijGegevens.meterwaarde_ga) + " m³ \n(Δ: " +  df_ga.format(rijGegevens.verschil_ga) + " m³)"
             rggas.setText(rggastxt)
-            val rgwatertxt = rijGegevens.meterwaarde_wa.toString() + " m³ \n(Δ: " + rijGegevens.verschil_wa.toString() + " m³)"
+
+            val rgwatertxt = df_wa.format(rijGegevens.meterwaarde_wa) + " m³ \n(Δ: " + df_wa.format(rijGegevens.verschil_wa) + " m³)"
             rgwater.setText(rgwatertxt)
-            val rgzontxt = rijGegevens.meterwaarde_pv.toString() + " kWh \n(Δ: " +  rijGegevens.verschil_pv.toString() + " kWh)"
+            val rgzontxt = df_pv.format(rijGegevens.meterwaarde_pv) + " kWh \n(Δ: " +  df_pv.format(rijGegevens.verschil_pv) + " kWh)"
             rgzon.setText(rgzontxt)
 
-            val huisverbruiktxt = huisverbruik.setScale(1).toString() + " kWh"// + dagvandeweek.toString()
+            val huisverbruiktxt = df_el.format(huisverbruik) + " kWh"// + dagvandeweek.toString()
             rghuis.setText(huisverbruiktxt)
         }
     }
 
     public interface OnGegevensitemListener{
-        fun onGegevensitemClick(v : View, position: Int)
+        fun onGegevensitemClick(v: View, position: Int)
     }
 
 
