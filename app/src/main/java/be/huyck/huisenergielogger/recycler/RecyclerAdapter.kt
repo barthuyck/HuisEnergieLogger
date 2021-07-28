@@ -5,9 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import be.huyck.huisenergielogger.R
 import be.huyck.huisenergielogger.modellen.RegistratieGegevens
-import kotlinx.android.synthetic.main.item_toon_data.view.*
+//import kotlinx.android.synthetic.main.item_toon_data.view.*
 import java.text.DecimalFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -113,12 +115,19 @@ class RecyclerAdapter(mmonGegevensitemListener: OnGegevensitemListener): Recycle
     ): RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
         private var mListener : OnGegevensitemListener
-        private val rgdatum = itemView.tvdatum
+        private val rgdatum = itemView.findViewById<TextView>(R.id.tvdatum)
+        private val rgel = itemView.findViewById<TextView>(R.id.tvel)
+        private val rggas = itemView.findViewById<TextView>(R.id.tvgas)
+        private val rgwater = itemView.findViewById<TextView>(R.id.tvwater)
+        private val rgzon = itemView.findViewById<TextView>(R.id.tvpv)
+        private val rghuis = itemView.findViewById<TextView>(R.id.tvhuis)
+
+        /*private val rgdatum = itemView. .tvdatum
         private val rgel = itemView.tvel
         private val rggas = itemView.tvgas
         private val rgwater = itemView.tvwater
         private val rgzon = itemView.tvpv
-        private val rghuis = itemView.tvhuis
+        private val rghuis = itemView.tvhuis*/
         private val formatter = DateTimeFormatter.ofPattern("EE dd/MM/yyyy HH:mm")
         private val weekdagformatter = DateTimeFormatter.ofPattern("e")
 

@@ -19,3 +19,11 @@
 2.6.0.0
 - add link to alarm clock
 
+2.7.0.0
+- upgrade kotlin version
+
+2.8.0.0
+- remove bug when day use of data is below zero.
+
+
+

@@ -160,7 +160,7 @@ class MainActivity : AppCompatActivity() {
             AuthUI.IdpConfig.GoogleBuilder().build()
         )
 
-        // Create and launch sign-in intent
+        // See: https://developer.android.com/training/basics/intents/result
         startActivityForResult(
             AuthUI.getInstance()
                 .createSignInIntentBuilder()

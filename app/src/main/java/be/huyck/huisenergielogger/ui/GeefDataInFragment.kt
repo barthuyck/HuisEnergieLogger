@@ -15,14 +15,14 @@ import android.widget.TextView
 import androidx.navigation.findNavController
 
 import be.huyck.huisenergielogger.R
-import kotlinx.android.synthetic.main.fragment_geef_data_in.*
+//import kotlinx.android.synthetic.main.fragment_geef_data_in.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import androidx.lifecycle.ViewModelProvider
 import be.huyck.huisenergielogger.ViewModel.DataViewModel
 import be.huyck.huisenergielogger.modellen.RegistratieGegevens
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.item_toon_data.*
+//import kotlinx.android.synthetic.main.item_toon_data.*
 
 /**
  * A simple [Fragment] subclass.
@@ -54,11 +54,11 @@ class GeefDataInFragment : Fragment() {
 
         val buttonSave = view.findViewById(R.id.buttonsave) as Button
         buttonSave.setOnClickListener(View.OnClickListener {
-            val el = with(EdtEL) { text.toString() }
+            val el = with(view.findViewById<TextView>(R.id.EdtEL)) { text.toString() }
             Log.d(TAGJE,"el: $el")
-            val ga = with(EdtGas) { text.toString().toDouble() }
-            val wa = with(EdtWat) { text.toString().toDouble() }
-            val pv = with(EdtPV) { text.toString().toDouble() }
+            val ga = with(view.findViewById<TextView>(R.id.EdtGas)) { text.toString().toDouble() }
+            val wa = with(view.findViewById<TextView>(R.id.EdtWat)) { text.toString().toDouble() }
+            val pv = with(view.findViewById<TextView>(R.id.EdtPV)) { text.toString().toDouble() }
 
 
 
@@ -131,8 +131,10 @@ class GeefDataInFragment : Fragment() {
     fun UpdateDatumEnTijd(){
         val formatterdatum = DateTimeFormatter.ofPattern("d/M/Y")
         val formattertijd = DateTimeFormatter.ofPattern("H:mm")
-        RegistratieDatum.text = nu.format(formatterdatum)
-        RegistratieTijd.text = nu.format(formattertijd)
+        val RegistratieDatumV = view?.findViewById<TextView>(R.id.RegistratieDatum)
+        val RegistratieTijdV = view?.findViewById<TextView>(R.id.RegistratieTijd)
+        RegistratieDatumV?.text = nu.format(formatterdatum)
+        RegistratieTijdV?.text = nu.format(formattertijd)
     }
 
 

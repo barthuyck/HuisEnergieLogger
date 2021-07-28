@@ -17,7 +17,6 @@ import be.huyck.huisenergielogger.R
 import be.huyck.huisenergielogger.ViewModel.DataViewModel
 import be.huyck.huisenergielogger.modellen.RegistratieGegevens
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_update_data.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.ZoneId
@@ -53,10 +52,14 @@ class UpdateDataFragment : Fragment() {
         val TeUpdaten = viewModel.getTeUpdatenRegistratieGegevens()
         //Log.d(TAGJE,"te updaten: ${TeUpdaten}")
 
-        EdtEL.setText(TeUpdaten.meterwaarde_el.toString())
-        EdtGas.setText(TeUpdaten.meterwaarde_ga.toString())
-        EdtWat.setText(TeUpdaten.meterwaarde_wa.toString())
-        EdtPV.setText(TeUpdaten.meterwaarde_pv.toString())
+        val EdtELV = view.findViewById<TextView>(R.id.EdtEL)
+        EdtELV.setText(TeUpdaten.meterwaarde_el.toString())
+        val EdtGasV = view.findViewById<TextView>(R.id.EdtGas)
+        EdtGasV.setText(TeUpdaten.meterwaarde_ga.toString())
+        val EdtWatV = view.findViewById<TextView>(R.id.EdtWat)
+        EdtWatV.setText(TeUpdaten.meterwaarde_wa.toString())
+        val EdtPVV = view.findViewById<TextView>(R.id.EdtPV)
+        EdtPVV.setText(TeUpdaten.meterwaarde_pv.toString())
         nu = TeUpdaten.registratiedatum
         val zoneId = ZoneId.of("Europe/Paris")
         nu.atZone(zoneId)
@@ -64,10 +67,10 @@ class UpdateDataFragment : Fragment() {
 
         val buttonUpdate = view.findViewById(R.id.buttonupdate) as Button
         buttonUpdate.setOnClickListener(View.OnClickListener {
-            val el = with(EdtEL) { text.toString().toDouble() }
-            val ga = with(EdtGas) { text.toString().toDouble() }
-            val wa = with(EdtWat) { text.toString().toDouble() }
-            val pv = with(EdtPV) { text.toString().toDouble() }
+            val el = with(EdtELV) { text.toString().toDouble() }
+            val ga = with(EdtGasV) { text.toString().toDouble() }
+            val wa = with(EdtWatV) { text.toString().toDouble() }
+            val pv = with(EdtPVV) { text.toString().toDouble() }
 
             //Log.d(TAGJE,"el: $el")
             //Log.d(TAGJE,"ga: $ga")
@@ -151,8 +154,10 @@ class UpdateDataFragment : Fragment() {
     fun UpdateDatumEnTijd(){
         val formatterdatum = DateTimeFormatter.ofPattern("d/M/Y")
         val formattertijd = DateTimeFormatter.ofPattern("H:mm")
-        RegistratieDatum.text = nu.format(formatterdatum)
-        RegistratieTijd.text = nu.format(formattertijd)
+        val RegistratieDatumV = view?.findViewById<TextView>(R.id.RegistratieDatum)
+        val RegistratieTijdV = view?.findViewById<TextView>(R.id.RegistratieTijd)
+        RegistratieDatumV?.text = nu.format(formatterdatum)
+        RegistratieTijdV?.text = nu.format(formattertijd)
     }
 
     override fun onAttach(context: Context) {

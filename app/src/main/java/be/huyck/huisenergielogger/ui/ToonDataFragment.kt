@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -17,7 +18,6 @@ import be.huyck.huisenergielogger.modellen.RegistratieGegevens
 import be.huyck.huisenergielogger.recycler.OnBottomReachedListener
 import be.huyck.huisenergielogger.recycler.RecyclerAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.fragment_toon_data.*
 
 
 class ToonDataFragment : Fragment(), RecyclerAdapter.OnGegevensitemListener {
@@ -40,7 +40,21 @@ class ToonDataFragment : Fragment(), RecyclerAdapter.OnGegevensitemListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initRecyclerView()
+        //initRecyclerView()
+
+        var myLayoutManager = LinearLayoutManager(activity)
+        var dataRecyclerV = view.findViewById(R.id.dataRecycler) as androidx.recyclerview.widget.RecyclerView
+        dataRecyclerV.layoutManager = myLayoutManager
+
+        gegevensadapter = RecyclerAdapter(this)
+        dataRecyclerV.adapter = gegevensadapter
+
+        gegevensadapter.setOnBottomReachedListener(object : OnBottomReachedListener {
+            override fun onBottomReached(position: Int) {
+                Toast.makeText(context, R.string.snacckbar_eindofrecycleviewer, Toast.LENGTH_SHORT).show()
+                viewModel.loadnextdata()
+            }
+        })
 
         //viewModel = ViewModelProviders.of(this).get(DataViewModel::class.java)
         this.viewModel = activity?.run {
@@ -77,8 +91,9 @@ class ToonDataFragment : Fragment(), RecyclerAdapter.OnGegevensitemListener {
 
     }
 
-    private fun initRecyclerView(){
+    /*private fun initRecyclerView(){
         var myLayoutManager = LinearLayoutManager(activity)
+        var dataRecyclerV = View.findViewById(R.id.dataRecycler)
         dataRecycler.layoutManager = myLayoutManager
 
         gegevensadapter = RecyclerAdapter(this)
@@ -104,7 +119,7 @@ class ToonDataFragment : Fragment(), RecyclerAdapter.OnGegevensitemListener {
         dataRecycler.addOnScrollListener(onScrollListener)
         Log.d("onscrollistener","op het einde toegevogd")*/
 
-    }
+    }*/
 
     override fun onGegevensitemClick(v : View, position: Int){
         //viewModel.lijstRegistratieGegevens.value[position]
