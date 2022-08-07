@@ -20,7 +20,7 @@
     <string name="snackbar_delete">Tellergegevens verwijderd</string>
     <string name="snackbar_update">Tellergegevens geupdate</string>
     <string name="snackbar_toegevoegd">Tellergegevens toegevoegd</string>
-    <string name="snackbar_export">Tellergegevens geëxporteerd naar</string>
+    <string name="snackbar_export">Tellergegevens geëxporteerd naar...</string>
     <string name="snackbar_openfile">Open bestand</string>
     <string name="snacckbar_eindofrecycleviewer">Oudere gegevens ophalen.</string>
 
