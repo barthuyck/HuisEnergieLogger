@@ -96,7 +96,7 @@ class DataViewModel : ViewModel() {
             val db = FirebaseFirestore.getInstance()
             val db_useruid = user.uid.toString()
 
-            val docRef = db.collection("users").document(db_useruid).collection("meetgegevens")
+            db.collection("users").document(db_useruid).collection("meetgegevens")
                 .document(registratieGegevens.firebaseid).delete()
 //                    .addOnSuccessListener { }//Log.d(TAGJE, "DocumentSnapshot successfully deleted!") }
 //                    .addOnFailureListener { } //e -> Log.w(TAGJE, "Error deleting document", e) }
@@ -130,7 +130,8 @@ class DataViewModel : ViewModel() {
                 "meterwaardePV" to registratieGegevens.meterwaarde_pv
             )
 
-            val docRef = db.collection("users").document(db_useruid).collection("meetgegevens")
+            //val docRef =
+            db.collection("users").document(db_useruid).collection("meetgegevens")
                 .document(registratieGegevens.firebaseid).update(updatesdata)
 //                .addOnSuccessListener { }//Log.d(TAGJE, "DocumentSnapshot successfully updatet!") }
 //                .addOnFailureListener { }//e -> Log.w(TAGJE, "Error updating document", e) }
@@ -161,7 +162,7 @@ class DataViewModel : ViewModel() {
     fun loadnextdata() {
         //Log.d(TAGJE, "volgende set data wordt geladen!")
         val user = auth.currentUser
-        if (user != null && lastVisible != null) {
+        if (user != null ) { // && lastVisible != null
             val db = FirebaseFirestore.getInstance()
             val db_useruid = user.uid.toString()
 
@@ -353,6 +354,27 @@ class DataViewModel : ViewModel() {
                 //Log.e(TAGJE, "file closing error")
             }
         }
+    }
+
+    fun exportToString(): String {
+        // omzetten van data in ViewModel naar String om te kunnen exporteren naar mail
+        var gegevensLijst : MutableList<String> = mutableListOf("Meetmoment,Elektriciteit,Gas,Water,PV", System.lineSeparator())
+        val lijstiterator = lijst.iterator()
+        lijstiterator.forEach {
+            val formatted = it.registratiedatum.format(DateTimeFormatter.ISO_DATE_TIME)
+            var lijdata = formatted
+            lijdata = lijdata.plus(",")
+            lijdata = lijdata.plus(it.meterwaarde_el.toString())
+            lijdata = lijdata.plus(',')
+            lijdata = lijdata.plus(it.meterwaarde_ga.toString())
+            lijdata = lijdata.plus(',')
+            lijdata = lijdata.plus(it.meterwaarde_wa.toString())
+            lijdata = lijdata.plus(',')
+            lijdata = lijdata.plus(it.meterwaarde_pv.toString())
+            lijdata = lijdata.plus(System.lineSeparator())
+            gegevensLijst.add(lijdata)
+        }
+        return gegevensLijst.toString()
     }
 
     // schrijf 1 waarde

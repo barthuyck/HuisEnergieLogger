@@ -1,39 +1,50 @@
 package be.huyck.huisenergielogger
 
-import android.app.Activity
+import android.R.string
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.AlarmClock
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toFile
 import androidx.lifecycle.ViewModelProvider
-
-import be.huyck.huisenergielogger.ViewModel.DataViewModel
-import java.util.*
-import com.firebase.ui.auth.AuthUI
-import com.google.firebase.auth.FirebaseAuth
-
-import android.os.Environment
-import android.provider.AlarmClock
-
 import androidx.preference.PreferenceManager
-
+import be.huyck.huisenergielogger.ViewModel.DataViewModel
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
+import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import java.io.File
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var auth : FirebaseAuth
-    lateinit var viewModel : DataViewModel
-    lateinit var sharedPreferences : SharedPreferences
-    lateinit var pad : File
-    val TAGJE = "huisenergielogger.Mainactivity"
+    private lateinit var viewModel : DataViewModel
+    private lateinit var sharedPreferences : SharedPreferences
+    // lateinit var pad : File
+    private val TAGJE = "huisenergielogger.Mainactivity"
+
+    // [START auth_fui_create_launcher]
+    // See: https://developer.android.com/training/basics/intents/result
+    private val signInLauncher = registerForActivityResult(
+        FirebaseAuthUIActivityResultContract()
+    ) { res ->
+        this.onSignInResult(res)
+    }
+    // [END auth_fui_create_launcher]
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +83,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_login -> {
-            // User chose the "Settings" item, show the app settings UI...
             createSignInIntent()
             true
         }
@@ -83,26 +93,11 @@ class MainActivity : AppCompatActivity() {
 
         R.id.action_settings -> {
             CreateSettingsIntent()
-            // User chose the "Favorite" action, mark the current item
-            // as a favorite...
-             //val navController = findNavController(R.id.nav_hel)
-            //navController.navigate(R.id.toonDataFragment)
-            //Navigation.findNavController(this,R.id.nav_hel).navigate(R.id.toonDataFragment)
-            //      NavHostFragment.findNavController(GeefDataInFragment())
             true
         }
 
         R.id.action_export ->{
-            //viewModel.ImportDataFromFile(File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "meetdata1.csv"))
-
-            val nu = LocalDateTime.now()
-            val formatterdatumtime = DateTimeFormatter.ofPattern("YMd_Hmmss")
-            val bestandsnaam = "Export" + nu.format(formatterdatumtime) + ".csv"
-            viewModel.exportToFile(File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), bestandsnaam))
-            val pad = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).toString() + bestandsnaam
-            Snackbar.make(getWindow().getDecorView(), getString(R.string.snackbar_export) + pad, Snackbar.LENGTH_LONG)
-                //.setAction(getString(R.string.snackbar_openfile), SnackBarListenerExport(this))
-                .show()
+            CreateActionExportDataIntent()
             true
         }
 
@@ -155,63 +150,113 @@ class MainActivity : AppCompatActivity() {
     private fun createSignInIntent() {
         // [START auth_fui_create_intent]
         // Choose authentication providers
-        val providers = Arrays.asList(
-            AuthUI.IdpConfig.EmailBuilder().build(),
-            AuthUI.IdpConfig.GoogleBuilder().build()
-        )
+        val providers = arrayListOf(
+            //AuthUI.IdpConfig.EmailBuilder().build(),
+            AuthUI.IdpConfig.GoogleBuilder().build())
 
-        // See: https://developer.android.com/training/basics/intents/result
-        startActivityForResult(
-            AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(providers)
-                .build(),
-            RC_SIGN_IN
-        )
+
+        // Create and launch sign-in intent
+        val signInIntent = AuthUI.getInstance()
+            .createSignInIntentBuilder()
+            .setAvailableProviders(providers)
+            .build()
+        signInLauncher.launch(signInIntent)
         // [END auth_fui_create_intent]
     }
 
     // [START auth_fui_result]
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        Log.d(TAGJE,"resultcode: $resultCode")
-        Log.d(TAGJE,"requestCode: $requestCode")
-
-        if (requestCode == RC_SIGN_IN) {
-            //val response = IdpResponse.fromResultIntent(data)
-
-            if (resultCode == Activity.RESULT_OK) {
-                // Successfully signed in
-                viewModel.loaddata(true)
-                //NavHostFragment.findNavController(ToonDataFragment()).navigate(R.id.toonDataFragment)
-                // ...
-            } else {
-                // Sign in failed. If response is null the user canceled the
-                // sign-in flow using the back button. Otherwise check
-                // response.getError().getErrorCode() and handle the error.
-                // ...
-            }
+    private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
+        val response = result.idpResponse
+        Log.d(TAGJE,"resultcode: $response")
+        if (result.resultCode == RESULT_OK) {
+            // Successfully signed in
+            viewModel.loaddata(true)
+            val user = FirebaseAuth.getInstance().currentUser
+            // ...
+        } else {
+            // Sign in failed. If response is null the user canceled the
+            // sign-in flow using the back button. Otherwise check
+            // response.getError().getErrorCode() and handle the error.
+            // ...
         }
     }
     // [END auth_fui_result]
 
-    fun signOut() {
+    private fun signOut() {
         // [START auth_fui_signout]
         AuthUI.getInstance()
             .signOut(this)
             .addOnCompleteListener {
                 viewModel.cleardata()
             }
-
-
         // [END auth_fui_signout]
     }
 
-    companion object {
-        private const val RC_SIGN_IN = 45263
+    private fun CreateActionExportDataIntent(){
+        val nu = LocalDateTime.now()
+        val formatterdatumtime = DateTimeFormatter.ofPattern("YMd_Hmmss")
+        val bestandsnaam = "Export" + nu.format(formatterdatumtime) + ".csv"
+
+        viewModel.exportToFile(File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), bestandsnaam))
+        val pad = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString() + bestandsnaam
+        Snackbar.make(getWindow().getDecorView(), getString(R.string.snackbar_export) + pad, Snackbar.LENGTH_LONG)
+            .show()
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, viewModel.exportToString())
+            type = "text/plain"
+        }
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 
 
+    /*
+        private fun schrijfDataWegNaarBestand(uri: Uri){
+            viewModel.exportToFile(uri.toFile())
+        }
+
+        val slaBestandOpLauncher =  registerForActivityResult(
+            ActivityResultContracts.CreateDocument("text/*")
+        ) {
+                uri: Uri? ->
+                this.onSlaBestandOpResult(uri)
+        }
+
+        private fun createSlaBestandOpIntent() {
+            val nu = LocalDateTime.now()
+            val formatterdatumtime = DateTimeFormatter.ofPattern("YMd_Hmmss")
+            val bestandsnaam = "Export" + nu.format(formatterdatumtime) + ".csv"
+
+            viewModel.exportToFile(File(getExternalFilesDir("DIRECTORY_DOCUMENTS"),bestandsnaam))
+
+            val SlaOpIntent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = "application/csv"
+                putExtra(Intent.EXTRA_TITLE, bestandsnaam)
+            }
+            //slaBestandOpLauncher.launch(bestandsnaam)
+
+        }
+
+        private fun onSlaBestandOpResult(uri: Uri? ) {
+
+            uri?.path?.let {
+                Log.d(TAGJE,"uridata.path: ${uri?.path}")
+                //viewModel.exportToFile(File(uri?.path))
+            }
+
+            /*if (resultaat.resultCode == RESULT_OK) {
+                // Successfully signed in
+                val Intentwaarde = resultaat.data
+                Log.d(TAGJE,"Intentwaarde: ${Intentwaarde}")
+                val uridata = Intentwaarde?.data
+                Log.d(TAGJE,"uridata.path: ${uridata?.path}")
+
+            }*/
+        }
+        */
+        */
 
 
 }
