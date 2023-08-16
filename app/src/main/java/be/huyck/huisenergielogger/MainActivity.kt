@@ -171,7 +171,7 @@ class MainActivity : AppCompatActivity() {
         if (result.resultCode == RESULT_OK) {
             // Successfully signed in
             viewModel.loaddata(true)
-            val user = FirebaseAuth.getInstance().currentUser
+            // val user = FirebaseAuth.getInstance().currentUser
             // ...
         } else {
             // Sign in failed. If response is null the user canceled the

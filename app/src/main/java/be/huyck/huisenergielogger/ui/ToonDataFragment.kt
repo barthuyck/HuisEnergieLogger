@@ -66,10 +66,8 @@ class ToonDataFragment : Fragment(), RecyclerAdapter.OnGegevensitemListener {
         viewModel.getLijstRegistratieGegevens().observe(this, Observer<List<RegistratieGegevens>> { geg ->
             // update UI
             //Log.d(TAGJE,"nieuwe gegevens geladen via observer")
-            if (geg !=null){
-                gegevensadapter.submitList(geg)
-                gegevensadapter.notifyDataSetChanged()
-            }
+            gegevensadapter.submitList(geg)
+            gegevensadapter.notifyDataSetChanged()
 
         })
 

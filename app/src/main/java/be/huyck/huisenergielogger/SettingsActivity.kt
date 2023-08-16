@@ -21,7 +21,7 @@ class SettingsActivity : AppCompatActivity() {
         val id = item.getItemId()
 
         if (id == android.R.id.home) {
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
             return true
         }
 
