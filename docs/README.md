@@ -1,7 +1,9 @@
-Leeg op dit moment
+#  Intro
 
-### boe
+Deze app is ontwikkeld om mijn verbruik bij te houden op dagelijkse basis. 
 
-test
+# Pivacy Policy
 
-[Pricacy Policy](./privacypolicy.html)
+Om te voldoen aan een aantal vereisten van Google is een [pricacy policy](./privacypolicy.html) opgesteld.
+
+
