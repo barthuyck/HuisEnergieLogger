@@ -259,12 +259,12 @@ class DataViewModel : ViewModel() {
                     }*/
             }
             else{
-                docRef.orderBy("datum", Query.Direction.DESCENDING).limit(10).get()
+                docRef.orderBy("datum", Query.Direction.DESCENDING).limit(7).get()
                     .addOnSuccessListener { result ->
                         if (result.size()>0) {
                             lastVisible = result.documents[result.size() - 1]
                             for (document in result) {
-                                //Log.d(TAGJE, "${document.id} => ${document.data}")
+                                Log.d(TAGJE, "${document.id} => ${document.data}")
 
                                 val dat = document.get("datum") as Timestamp
                                 val el = document.get("meterwaardeEL") as Double

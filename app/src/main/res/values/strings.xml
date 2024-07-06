@@ -9,6 +9,7 @@
 
     <string name="knop_update">Update</string>
     <string name="knop_delete">Verwijder</string>
+    <string name="knop_populate">Data van web</string>
     <string name="dialog_tv_el_meter">Elektriciteit</string>
     <string name="dialog_tv_ga_meter">Gas</string>
     <string name="dialog_tv_wa_meter">Water</string>

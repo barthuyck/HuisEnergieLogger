@@ -13,6 +13,7 @@ import be.huyck.huisenergielogger.modellen.RegistratieGegevens
 import java.text.DecimalFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.math.RoundingMode
 
 
 class RecyclerAdapter(mmonGegevensitemListener: OnGegevensitemListener): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -81,19 +82,15 @@ class RecyclerAdapter(mmonGegevensitemListener: OnGegevensitemListener): Recycle
                 Log.d(TAG, "huidige: ${huidige}")
                 Log.d(TAG, "vorige: ${vorige}")
                 if (listIterator.hasPrevious()) {
-                    var tmp =
-                        vorige.meterwaarde_el.toBigDecimal() - huidige.meterwaarde_el.toBigDecimal()
-                    vorige.verschil_el = tmp.setScale(1).toDouble()
+                    var ruwewaarde = vorige.meterwaarde_el - huidige.meterwaarde_el
+                    vorige.verschil_el = ruwewaarde.toBigDecimal().setScale(1,RoundingMode.HALF_EVEN).toDouble()
                     var tmp1 = vorige.meterwaarde_ga - huidige.meterwaarde_ga
-                    Log.d(TAG, "vorige: ${tmp1}")
-
+                    //Log.d(TAG, "vorige: ${tmp1}")
                     vorige.verschil_ga = tmp1 //df.format(tmp1)
-                    tmp =
-                        vorige.meterwaarde_wa.toBigDecimal() - huidige.meterwaarde_wa.toBigDecimal()
-                    vorige.verschil_wa = tmp.setScale(4).toDouble()
-                    tmp =
-                        vorige.meterwaarde_pv.toBigDecimal() - huidige.meterwaarde_pv.toBigDecimal()
-                    vorige.verschil_pv = tmp.setScale(1).toDouble()
+                    ruwewaarde = vorige.meterwaarde_wa - huidige.meterwaarde_wa
+                    vorige.verschil_wa = ruwewaarde.toBigDecimal().setScale(4,RoundingMode.HALF_EVEN).toDouble()
+                    ruwewaarde = vorige.meterwaarde_pv - huidige.meterwaarde_pv
+                    vorige.verschil_pv = ruwewaarde.toBigDecimal().setScale(1,RoundingMode.HALF_EVEN).toDouble()
                 }
                 else{
                     huidige.verschil_el = 0.1

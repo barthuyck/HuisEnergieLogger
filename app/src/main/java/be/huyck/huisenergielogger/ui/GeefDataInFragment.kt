@@ -52,7 +52,7 @@ class GeefDataInFragment : Fragment() {
         nu = LocalDateTime.now()
         UpdateDatumEnTijd()
 
-        val buttonSave = view.findViewById(R.id.buttonsave) as Button
+        val buttonSave: Button = view.findViewById(R.id.buttonsave)
         buttonSave.setOnClickListener(View.OnClickListener {
             val el = with(view.findViewById<TextView>(R.id.EdtEL)) { text.toString() }
             Log.d(TAGJE,"el: $el")
@@ -87,13 +87,37 @@ class GeefDataInFragment : Fragment() {
             navController.navigate(R.id.toonDataFragment)
         })
 
-        val buttonCancel = view.findViewById(R.id.buttoncancel) as Button
+        val buttonCancel: Button = view.findViewById(R.id.buttoncancel)
         buttonCancel.setOnClickListener(View.OnClickListener {
             val navController = it.findNavController()
             navController.navigate(R.id.toonDataFragment)
         })
 
-        val buttonDate = view.findViewById(R.id.RegistratieDatum) as TextView
+        val buttonPopulate: Button = view.findViewById(R.id.buttonpopulate)
+        buttonPopulate.setOnClickListener(View.OnClickListener {
+            val ingevoerdeGegevens = RegistratieGegevens(
+                nu,
+                1.0,
+                2.0,
+                3.0,
+                4.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                "0")
+            Log.d(TAGJE,"gegevens die worden ingevoerd:")
+            Log.d(TAGJE,ingevoerdeGegevens.toString())
+            viewModel.addData(ingevoerdeGegevens)
+            Snackbar.make(view, getString(R.string.snackbar_toegevoegd), Snackbar.LENGTH_LONG)
+                .setAction("Action", null)
+                .show()
+            val navController = it.findNavController()
+            navController.navigate(R.id.toonDataFragment)
+
+        })
+
+        val buttonDate: TextView = view.findViewById(R.id.RegistratieDatum)
         buttonDate.setOnClickListener(View.OnClickListener {
             val dag = nu.dayOfMonth
             val maand = nu.monthValue-1
@@ -110,7 +134,7 @@ class GeefDataInFragment : Fragment() {
             dpd.show()
         })
 
-        val buttonTime = view.findViewById(R.id.RegistratieTijd) as TextView
+        val buttonTime: TextView = view.findViewById(R.id.RegistratieTijd)
         buttonTime.setOnClickListener(View.OnClickListener {
             val minuut = nu.minute
             val uur = nu.hour
