@@ -4,13 +4,18 @@ import java.time.LocalDateTime
 
 data class RegistratieGegevens (
     var registratiedatum: LocalDateTime,
-    var meterwaarde_el: Double,
-    var meterwaarde_ga: Double,
-    var meterwaarde_wa: Double,
-    var meterwaarde_pv: Double,
-    var verschil_el: Double,
-    var verschil_ga: Double,
-    var verschil_wa: Double,
-    var verschil_pv: Double,
+    var meterwaardeElekImport: Double,
+    var meterwaardeElekExport: Double,
+    var meterwaardeGas: Double,
+    var meterwaardeWater: Double,
+    var meterwaardePv1: Double,
+    var meterwaardePv2: Double,
+    var verschilElekImport: Double,
+    var verschilElekExport: Double,
+    var verschilGas: Double,
+    var verschilWater: Double,
+    var verschilPv1: Double,
+    var verschilPv2: Double,
     var firebaseid: String
 )
+

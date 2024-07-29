@@ -62,10 +62,12 @@ class DataViewModel : ViewModel() {
                     registratieGegevens.registratiedatum.toEpochSecond(ZoneOffset.UTC),
                     0
                 ),
-                "meterwaardeEL" to registratieGegevens.meterwaarde_el,
-                "meterwaardeGA" to registratieGegevens.meterwaarde_ga,
-                "meterwaardeWA" to registratieGegevens.meterwaarde_wa,
-                "meterwaardePV" to registratieGegevens.meterwaarde_pv
+                "meterwaardeEL" to registratieGegevens.meterwaardeElekImport,
+                "meterwaardeEL2" to registratieGegevens.meterwaardeElekExport,
+                "meterwaardeGA" to registratieGegevens.meterwaardeGas,
+                "meterwaardeWA" to registratieGegevens.meterwaardeWater,
+                "meterwaardePV" to registratieGegevens.meterwaardePv1,
+                "meterwaardePV2" to registratieGegevens.meterwaardePv2
             )
 
             docRef.set(docData)
@@ -110,38 +112,41 @@ class DataViewModel : ViewModel() {
 
     fun updateData(registratieGegevens: RegistratieGegevens){
         //Log.d(TAGJE, "Data updaten in viewmodel!")
-        lijst[TeUpdatenRegistratieGegevens] = registratieGegevens
-        lijstRegistratieGegevens.postValue(lijst)
+        if (lijst.size > 0) {
+            lijst[TeUpdatenRegistratieGegevens] = registratieGegevens
+            lijstRegistratieGegevens.postValue(lijst)
 
-        val user = auth.currentUser
-        if (user != null) {
-            //Log.d(TAGJE, "gebruiker ingelogd, ...")
-            val db = FirebaseFirestore.getInstance()
-            val db_useruid = user.uid.toString()
+            val user = auth.currentUser
+            if (user != null) {
+                //Log.d(TAGJE, "gebruiker ingelogd, ...")
+                val db = FirebaseFirestore.getInstance()
+                val db_useruid = user.uid.toString()
 
-            val updatesdata = hashMapOf<String, Any>(
-                "datum" to Timestamp(
-                    registratieGegevens.registratiedatum.toEpochSecond(ZoneOffset.UTC),
-                    0
-                ),
-                "meterwaardeEL" to registratieGegevens.meterwaarde_el,
-                "meterwaardeGA" to registratieGegevens.meterwaarde_ga,
-                "meterwaardeWA" to registratieGegevens.meterwaarde_wa,
-                "meterwaardePV" to registratieGegevens.meterwaarde_pv
-            )
+                val updatesdata = hashMapOf<String, Any>(
+                    "datum" to Timestamp(
+                        registratieGegevens.registratiedatum.toEpochSecond(ZoneOffset.UTC),
+                        0
+                    ),
+                    "meterwaardeEL" to registratieGegevens.meterwaardeElekImport,
+                    "meterwaardeEL2" to registratieGegevens.meterwaardeElekExport,
+                    "meterwaardeGA" to registratieGegevens.meterwaardeGas,
+                    "meterwaardeWA" to registratieGegevens.meterwaardeWater,
+                    "meterwaardePV" to registratieGegevens.meterwaardePv1,
+                    "meterwaardePV2" to registratieGegevens.meterwaardePv2
+                )
 
-            //val docRef =
-            db.collection("users").document(db_useruid).collection("meetgegevens")
-                .document(registratieGegevens.firebaseid).update(updatesdata)
+                //val docRef =
+                db.collection("users").document(db_useruid).collection("meetgegevens")
+                    .document(registratieGegevens.firebaseid).update(updatesdata)
 //                .addOnSuccessListener { }//Log.d(TAGJE, "DocumentSnapshot successfully updatet!") }
 //                .addOnFailureListener { }//e -> Log.w(TAGJE, "Error updating document", e) }
-        }
-        else{
-            //Log.d(TAGJE, "Geen gebruiker ingelogd, niets geschreven!")
-        }
-        if (backupOpDitToestel){
-            SaveDataLocally(bestand,registratieGegevens)
-            //Log.d(TAGJE, "Data local opgeslagen!")
+            } else {
+                //Log.d(TAGJE, "Geen gebruiker ingelogd, niets geschreven!")
+            }
+            if (backupOpDitToestel) {
+                SaveDataLocally(bestand, registratieGegevens)
+                //Log.d(TAGJE, "Data local opgeslagen!")
+            }
         }
     }
 
@@ -176,21 +181,39 @@ class DataViewModel : ViewModel() {
                     if (result.size()>0) {
                         lastVisible = result.documents[result.size() - 1]
                         for (document in result) {
-                            //Log.d(TAGJE, "${document.id} => ${document.data}")
+                            Log.d(TAGJE, "${document.id} => ${document.data}")
 
                             val dat = document.get("datum") as Timestamp
-                            val el = document.get("meterwaardeEL") as Double
+                            var el = 0.0
+                            if (document.get("meterwaardeEL") != null) {
+                                el = document.get("meterwaardeEL") as Double
+                            }
+                            else{
+                                Log.d(TAGJE, "gaat fout bij: ${document.id} => ${document.data}")
+                            }
+                            var el2 = 0.0
+                            if (document.get("meterwaardeEL2") != null) {
+                                el2 = document.get("meterwaardeEL2") as Double
+                            }
                             val ga = document.get("meterwaardeGA") as Double
                             val wa = document.get("meterwaardeWA") as Double
                             val pv = document.get("meterwaardePV") as Double
+                            var pv2 = 0.0
+                            if (document.get("meterwaardePV2") != null) {
+                                pv2 = document.get("meterwaardePV2") as Double
+                            }
 
 
                             val reggeg = RegistratieGegevens(
                                 LocalDateTime.ofEpochSecond(dat.seconds, 0, ZoneOffset.UTC),
                                 el,
+                                el2,
                                 ga,
                                 wa,
                                 pv,
+                                pv2,
+                                0.0,
+                                0.0,
                                 0.0,
                                 0.0,
                                 0.0,
@@ -231,17 +254,29 @@ class DataViewModel : ViewModel() {
 
                                 val dat = document.get("datum") as Timestamp
                                 val el = document.get("meterwaardeEL") as Double
+                                var el2 = 0.0
+                                if (document.get("meterwaardeEL2") != null) {
+                                    el2 = document.get("meterwaardeEL2") as Double
+                                }
                                 val ga = document.get("meterwaardeGA") as Double
                                 val wa = document.get("meterwaardeWA") as Double
                                 val pv = document.get("meterwaardePV") as Double
+                                var pv2 = 0.0
+                                if (document.get("meterwaardePV2") != null) {
+                                    pv2 = document.get("meterwaardePV2") as Double
+                                }
 
 
                                 val reggeg = RegistratieGegevens(
                                     LocalDateTime.ofEpochSecond(dat.seconds, 0, ZoneOffset.UTC),
                                     el,
+                                    el2,
                                     ga,
                                     wa,
                                     pv,
+                                    pv2,
+                                    0.0,
+                                    0.0,
                                     0.0,
                                     0.0,
                                     0.0,
@@ -268,17 +303,30 @@ class DataViewModel : ViewModel() {
 
                                 val dat = document.get("datum") as Timestamp
                                 val el = document.get("meterwaardeEL") as Double
+                                var el2 = 0.0
+                                if (document.get("meterwaardeEL2") != null) {
+                                    el2 = document.get("meterwaardeEL2") as Double
+                                    Log.d(TAGJE, "meterwaardeEL2 ok")
+                                }
                                 val ga = document.get("meterwaardeGA") as Double
                                 val wa = document.get("meterwaardeWA") as Double
                                 val pv = document.get("meterwaardePV") as Double
+                                var pv2 = 0.0
+                                if (document.get("meterwaardePV2") != null) {
+                                    pv2 = document.get("meterwaardePV2") as Double
+                                }
 
 
                                 val reggeg = RegistratieGegevens(
                                     LocalDateTime.ofEpochSecond(dat.seconds, 0, ZoneOffset.UTC),
                                     el,
+                                    el2,
                                     ga,
                                     wa,
                                     pv,
+                                    pv2,
+                                    0.0,
+                                    0.0,
                                     0.0,
                                     0.0,
                                     0.0,
@@ -324,7 +372,7 @@ class DataViewModel : ViewModel() {
             // Log.i(TAGJE, bestand.absolutePath)
             // Log.i(TAGJE, bestand.length().toString())
             if (bestand.length() < 50) {
-                val CSV_HEADER = "Meetmoment,Elektriciteit,Gas,Water,PV"
+                val CSV_HEADER = "Meetmoment,Elektriciteit,ElektriciteitEx,Gas,Water,PV,PV2"
                 fileWriter.append(CSV_HEADER)
                 fileWriter.append('\n')
                 //Log.i(TAGJE, "header toegevoegd")
@@ -334,13 +382,17 @@ class DataViewModel : ViewModel() {
                 val formatted = it.registratiedatum.format(DateTimeFormatter.ISO_DATE_TIME)
                 fileWriter.append(formatted)
                 fileWriter.append(',')
-                fileWriter.append(it.meterwaarde_el.toString())
+                fileWriter.append(it.meterwaardeElekImport.toString())
                 fileWriter.append(',')
-                fileWriter.append(it.meterwaarde_ga.toString())
+                fileWriter.append(it.meterwaardeElekExport.toString())
                 fileWriter.append(',')
-                fileWriter.append(it.meterwaarde_wa.toString())
+                fileWriter.append(it.meterwaardeGas.toString())
                 fileWriter.append(',')
-                fileWriter.append(it.meterwaarde_pv.toString())
+                fileWriter.append(it.meterwaardeWater.toString())
+                fileWriter.append(',')
+                fileWriter.append(it.meterwaardePv1.toString())
+                fileWriter.append(',')
+                fileWriter.append(it.meterwaardePv2.toString())
                 fileWriter.append('\n')
                 //Log.i(TAGJE, "gegevens aangevuld")
             }
@@ -358,19 +410,23 @@ class DataViewModel : ViewModel() {
 
     fun exportToString(): String {
         // omzetten van data in ViewModel naar String om te kunnen exporteren naar mail
-        var gegevensLijst : MutableList<String> = mutableListOf("Meetmoment,Elektriciteit,Gas,Water,PV", System.lineSeparator())
+        var gegevensLijst : MutableList<String> = mutableListOf("Meetmoment,Elektriciteit,ElektriciteitEx,Gas,Water,PV,PV2", System.lineSeparator())
         val lijstiterator = lijst.iterator()
         lijstiterator.forEach {
             val formatted = it.registratiedatum.format(DateTimeFormatter.ISO_DATE_TIME)
             var lijdata = formatted
             lijdata = lijdata.plus(",")
-            lijdata = lijdata.plus(it.meterwaarde_el.toString())
+            lijdata = lijdata.plus(it.meterwaardeElekImport.toString())
             lijdata = lijdata.plus(',')
-            lijdata = lijdata.plus(it.meterwaarde_ga.toString())
+            lijdata = lijdata.plus(it.meterwaardeElekExport.toString())
             lijdata = lijdata.plus(',')
-            lijdata = lijdata.plus(it.meterwaarde_wa.toString())
+            lijdata = lijdata.plus(it.meterwaardeGas.toString())
             lijdata = lijdata.plus(',')
-            lijdata = lijdata.plus(it.meterwaarde_pv.toString())
+            lijdata = lijdata.plus(it.meterwaardeWater.toString())
+            lijdata = lijdata.plus(',')
+            lijdata = lijdata.plus(it.meterwaardePv1.toString())
+            lijdata = lijdata.plus(',')
+            lijdata = lijdata.plus(it.meterwaardePv2.toString())
             lijdata = lijdata.plus(System.lineSeparator())
             gegevensLijst.add(lijdata)
         }
@@ -403,13 +459,17 @@ class DataViewModel : ViewModel() {
                 val formatted = registratieGegevens.registratiedatum.format(DateTimeFormatter.ISO_DATE_TIME)
                 fileWriter.append(formatted)
                 fileWriter.append(',')
-                fileWriter.append(registratieGegevens.meterwaarde_el.toString())
+                fileWriter.append(registratieGegevens.meterwaardeElekImport.toString())
                 fileWriter.append(',')
-                fileWriter.append(registratieGegevens.meterwaarde_ga.toString())
+                fileWriter.append(registratieGegevens.meterwaardeElekExport.toString())
                 fileWriter.append(',')
-                fileWriter.append(registratieGegevens.meterwaarde_wa.toString())
+                fileWriter.append(registratieGegevens.meterwaardeGas.toString())
                 fileWriter.append(',')
-                fileWriter.append(registratieGegevens.meterwaarde_pv.toString())
+                fileWriter.append(registratieGegevens.meterwaardeWater.toString())
+                fileWriter.append(',')
+                fileWriter.append(registratieGegevens.meterwaardePv1.toString())
+                fileWriter.append(',')
+                fileWriter.append(registratieGegevens.meterwaardePv2.toString())
                 fileWriter.append('\n')
                 //Log.i(TAGJE, "gegevens aangevuld")
             //}
@@ -432,7 +492,6 @@ class DataViewModel : ViewModel() {
 
         var fileReader = file.bufferedReader()
 
-
         // Read CSV header
         fileReader.readLine()
 
@@ -448,6 +507,10 @@ class DataViewModel : ViewModel() {
                     tokens[2].run { toDouble() },
                     tokens[3].run { toDouble() },
                     tokens[4].run { toDouble() },
+                    tokens[5].run { toDouble() },
+                    tokens[6].run { toDouble() },
+                    0.0,
+                    0.0,
                     0.0,
                     0.0,
                     0.0,

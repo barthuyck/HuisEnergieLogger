@@ -53,24 +53,30 @@ class UpdateDataFragment : Fragment() {
         //Log.d(TAGJE,"te updaten: ${TeUpdaten}")
 
         val EdtELV = view.findViewById<TextView>(R.id.EdtEL)
-        EdtELV.setText(TeUpdaten.meterwaarde_el.toString())
+        EdtELV.setText(TeUpdaten.meterwaardeElekImport.toString())
+        val EdtEL2V = view.findViewById<TextView>(R.id.EdtELEx)
+        EdtEL2V.setText(TeUpdaten.meterwaardeElekExport.toString())
         val EdtGasV = view.findViewById<TextView>(R.id.EdtGas)
-        EdtGasV.setText(TeUpdaten.meterwaarde_ga.toString())
+        EdtGasV.setText(TeUpdaten.meterwaardeGas.toString())
         val EdtWatV = view.findViewById<TextView>(R.id.EdtWat)
-        EdtWatV.setText(TeUpdaten.meterwaarde_wa.toString())
+        EdtWatV.setText(TeUpdaten.meterwaardeWater.toString())
         val EdtPVV = view.findViewById<TextView>(R.id.EdtPV)
-        EdtPVV.setText(TeUpdaten.meterwaarde_pv.toString())
+        EdtPVV.setText(TeUpdaten.meterwaardePv1.toString())
+        val EdtPV2V = view.findViewById<TextView>(R.id.EdtPV2)
+        EdtPV2V.setText(TeUpdaten.meterwaardePv2.toString())
         nu = TeUpdaten.registratiedatum
         val zoneId = ZoneId.of("Europe/Paris")
         nu.atZone(zoneId)
         UpdateDatumEnTijd()
 
-        val buttonUpdate = view.findViewById(R.id.buttonupdate) as Button
+        val buttonUpdate: Button = view.findViewById(R.id.buttonupdate)
         buttonUpdate.setOnClickListener(View.OnClickListener {
             val el = with(EdtELV) { text.toString().toDouble() }
+            val el2 = with(EdtEL2V) { text.toString().toDouble() }
             val ga = with(EdtGasV) { text.toString().toDouble() }
             val wa = with(EdtWatV) { text.toString().toDouble() }
             val pv = with(EdtPVV) { text.toString().toDouble() }
+            val pv2 = with(EdtPV2V) { text.toString().toDouble() }
 
             //Log.d(TAGJE,"el: $el")
             //Log.d(TAGJE,"ga: $ga")
@@ -80,9 +86,13 @@ class UpdateDataFragment : Fragment() {
             val ingevoerdeGegevens = RegistratieGegevens(
                 nu,
                 el,
+                el2,
                 ga,
                 wa,
                 pv,
+                pv2,
+                0.0,
+                0.0,
                 0.0,
                 0.0,
                 0.0,
@@ -98,25 +108,36 @@ class UpdateDataFragment : Fragment() {
                 .show()
         })
 
-        val buttonDelete = view.findViewById(R.id.buttondelete) as Button
+        class MyUndoListener : View.OnClickListener {
+            override fun onClick(v: View) {
+                // Code to undo the user's last action.
+                viewModel.addData(TeUpdaten)
+                Snackbar.make(view, getString(R.string.snackbar_undo_delete), Snackbar.LENGTH_LONG)
+                    .setAction("Action", null)
+                    .show()
+            }
+        }
+
+        val buttonDelete: Button = view.findViewById(R.id.buttondelete)
         buttonDelete.setOnClickListener(View.OnClickListener {
             //Log.d(TAGJE,"gegevens die worden gedelete:")
             //Log.d(TAGJE,TeUpdaten.toString())
             viewModel.deleteData(TeUpdaten)
-            Snackbar.make(view, getString(R.string.snackbar_delete), Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .show()
+            val mySnackbar = Snackbar.make(view, getString(R.string.snackbar_delete), Snackbar.LENGTH_LONG)
+            mySnackbar.setAction(R.string.snackbar_undo, MyUndoListener())
+            mySnackbar.show()
             val navController = it.findNavController()
             navController.navigate(R.id.toonDataFragment)
         })
 
-        val buttonCancel = view.findViewById(R.id.buttoncancel) as Button
+
+        val buttonCancel: Button = view.findViewById(R.id.buttoncancel)
         buttonCancel.setOnClickListener(View.OnClickListener {
             val navController = it.findNavController()
             navController.navigate(R.id.toonDataFragment)
         })
 
-        val buttonDate = view.findViewById(R.id.RegistratieDatum) as TextView
+        val buttonDate: TextView = view.findViewById(R.id.RegistratieDatum)
         buttonDate.setOnClickListener(View.OnClickListener {
             val dag = nu.dayOfMonth
             val maand = nu.monthValue-1
@@ -133,7 +154,7 @@ class UpdateDataFragment : Fragment() {
             dpd.show()
         })
 
-        val buttonTime = view.findViewById(R.id.RegistratieTijd) as TextView
+        val buttonTime: TextView = view.findViewById(R.id.RegistratieTijd)
         buttonTime.setOnClickListener(View.OnClickListener {
             val minuut = nu.minute
             val uur = nu.hour

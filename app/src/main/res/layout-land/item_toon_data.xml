@@ -35,8 +35,6 @@
                 android:id="@+id/tvhuis"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginBottom="16dp"
                 android:contentDescription="@string/dialog_tv_tot_huis"
                 android:drawableStart="@drawable/ic_huis"
                 android:drawableRight="@drawable/ic_chevron_left_black_24dp"
@@ -44,39 +42,41 @@
                 android:padding="2dp"
                 android:text="TextView"
                 android:textAlignment="center"
-                app:layout_constraintBottom_toTopOf="@+id/tvel"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 
             <TextView
                 android:id="@+id/tvel"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="32dp"
                 android:contentDescription="@string/dialog_tv_el_meter"
                 android:drawableStart="@drawable/ic_flash"
                 android:drawableTint="#FFEB3B"
                 android:padding="2dp"
                 android:text="TextView"
                 android:textAlignment="center"
-                app:layout_constraintBottom_toTopOf="@+id/tvpv"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintBottom_toTopOf="@+id/textView5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvhuis" />
 
             <TextView
                 android:id="@+id/tvpv"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
+                android:layout_marginTop="24dp"
                 android:contentDescription="@string/dialog_tv_pv_meter"
                 android:drawableStart="@drawable/ic_sun_energy"
                 android:drawableTint="#4CAF50"
                 android:padding="2dp"
                 android:text="TextView"
                 android:textAlignment="center"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/textView4"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/tvhuis" />
 
             <TextView
                 android:id="@+id/tvgas"
@@ -84,7 +84,7 @@
 
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp"
                 android:contentDescription="@string/dialog_tv_ga_meter"
                 android:drawableStart="@drawable/ic_gas"
                 android:drawableTint="#F44336"
@@ -92,82 +92,84 @@
                 android:padding="2dp"
                 android:text="TextView"
                 android:textAlignment="center"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvpv" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/tvwater"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="32dp"
                 android:contentDescription="@string/dialog_tv_wa_meter"
                 android:drawableStart="@drawable/ic_drop"
                 android:drawableTint="#2196F3"
                 android:padding="2dp"
                 android:text="TextView"
                 android:textAlignment="center"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvgas" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="32dp"
-                android:layout_marginBottom="32dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_itemview_nutslogger2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintHorizontal_bias="0.501"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvhuis"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/dialog_tv_tot_huis"
-                app:layout_constraintBottom_toTopOf="@+id/tvhuis"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
                 android:text="@string/dialog_tv_el_meter"
                 app:layout_constraintBottom_toTopOf="@+id/tvel"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintEnd_toEndOf="@+id/tvel"
+                app:layout_constraintStart_toStartOf="@+id/tvel" />
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
                 android:text="@string/dialog_tv_pv_meter"
                 app:layout_constraintBottom_toTopOf="@+id/tvpv"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintEnd_toEndOf="@+id/tvpv"
+                app:layout_constraintStart_toStartOf="@+id/tvpv" />
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
                 android:text="@string/dialog_tv_ga_meter"
                 app:layout_constraintBottom_toTopOf="@+id/tvgas"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintEnd_toEndOf="@+id/tvgas"
+                app:layout_constraintStart_toStartOf="@+id/tvgas" />
 
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
                 android:text="@string/dialog_tv_wa_meter"
                 app:layout_constraintBottom_toTopOf="@+id/tvwater"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintEnd_toEndOf="@+id/tvwater"
+                app:layout_constraintStart_toStartOf="@+id/tvwater" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

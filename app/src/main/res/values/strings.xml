@@ -11,16 +11,23 @@
     <string name="knop_delete">Verwijder</string>
     <string name="knop_populate">Data van web</string>
     <string name="dialog_tv_el_meter">Elektriciteit</string>
+    <string name="dialog_tv_el_meter_ex">Elektriciteit (Export)</string>
     <string name="dialog_tv_ga_meter">Gas</string>
     <string name="dialog_tv_wa_meter">Water</string>
-    <string name="dialog_tv_pv_meter">Zonnecellen</string>
+    <string name="dialog_tv_pv_meter">Zonnecellen Huis</string>
+    <string name="dialog_tv_pv_meter2">Zonnecellen Garage</string>
     <string name="dialog_tv_tot_huis">Totaalverbruik huis</string>
     <string name="title_activity_settings">Instellingen</string>
     <string name="dialog_title">Geef meterstanden</string>
     <string name="btn_geefdatain">Geef data in</string>
     <string name="snackbar_delete">Tellergegevens verwijderd</string>
+    <string name="snackbar_undo_delete">Tellergegevens hersteld</string>
+    <string name="snackbar_undo">Verwijderen ongedaan maken</string>
     <string name="snackbar_update">Tellergegevens geupdate</string>
     <string name="snackbar_toegevoegd">Tellergegevens toegevoegd</string>
+    <string name="snackbar_van_net">Gegevens van Raspberry toegevoegd</string>
+    <string name="snackbar_van_net_fout">Gegevens konden niet worden ingelezen...</string>
+
     <string name="snackbar_export">Tellergegevens geëxporteerd naar...</string>
     <string name="snackbar_openfile">Open bestand</string>
     <string name="snacckbar_eindofrecycleviewer">Oudere gegevens ophalen.</string>
@@ -39,7 +46,7 @@
     <string name="pref_url_category_title">App informatie</string>
     <string name="pref_url_title">Meer informatie</string>
     <string name="pref_url_summary">Klik op deze link voor meer informatie rond deze app.</string>
-    <string name="pref_url_data">https://github.com/barthuyck/HuisEnergieLogger/</string>
+    <string name="pref_url_data">https://barthuyck.github.io/HuisEnergieLogger/</string>
 
     <!-- Backup Preferences -->
 
