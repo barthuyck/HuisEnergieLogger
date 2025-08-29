@@ -7,206 +7,206 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 tools:context=".ui.GeefDataInFragment">
 
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/RegistratieTijd"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="24dp"
-        android:drawableLeft="@drawable/ic_access_time_black_24dp"
-        android:text="88:88"
-        android:textSize="24sp"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/RegistratieTijd"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="150dp"
+            android:layout_marginTop="16dp"
+            android:drawableLeft="@drawable/ic_access_time_black_24dp"
+            android:text="88:88"
+            android:textSize="24sp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/RegistratieDatum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:drawableLeft="@drawable/ic_date_range_black_24dp"
-        android:text="88/88/2024"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/RegistratieTijd"
-        app:layout_constraintEnd_toStartOf="@+id/RegistratieTijd"
-        app:layout_constraintTop_toTopOf="@+id/RegistratieTijd" />
+        <TextView
+            android:id="@+id/RegistratieDatum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:drawableLeft="@drawable/ic_date_range_black_24dp"
+            android:text="88/88/2024"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/RegistratieTijd"
+            app:layout_constraintEnd_toStartOf="@+id/RegistratieTijd"
+            app:layout_constraintTop_toTopOf="@+id/RegistratieTijd" />
 
 
-    <TextView
-        android:id="@+id/textElec"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="@string/dialog_tv_el_meter"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/EdtEL"
-        app:layout_constraintEnd_toStartOf="@+id/EdtEL"
-        app:layout_constraintTop_toTopOf="@+id/EdtEL" />
+        <TextView
+            android:id="@+id/textElec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/dialog_tv_el_meter"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/EdtEL"
+            app:layout_constraintEnd_toStartOf="@+id/EdtEL"
+            app:layout_constraintTop_toTopOf="@+id/EdtEL" />
 
-    <EditText
-        android:id="@+id/EdtEL"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:inputType="numberDecimal"
-        android:selectAllOnFocus="true"
-        android:text="0.0"
-        app:layout_constraintEnd_toStartOf="@+id/EdtWat"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/RegistratieTijd" />
+        <EditText
+            android:id="@+id/EdtEL"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:inputType="numberDecimal"
+            android:selectAllOnFocus="true"
+            android:text="0.0"
+            app:layout_constraintEnd_toStartOf="@+id/EdtWat"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/RegistratieTijd" />
 
-    <TextView
-        android:id="@+id/textElecEx"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="@string/dialog_tv_el_meter_ex"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/EdtELEx"
-        app:layout_constraintEnd_toStartOf="@+id/EdtELEx"
-        app:layout_constraintTop_toTopOf="@+id/EdtELEx" />
+        <TextView
+            android:id="@+id/textElecEx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/dialog_tv_el_meter_ex"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/EdtELEx"
+            app:layout_constraintEnd_toStartOf="@+id/EdtELEx"
+            app:layout_constraintTop_toTopOf="@+id/EdtELEx" />
 
-    <EditText
-        android:id="@+id/EdtELEx"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:inputType="numberDecimal"
-        android:minHeight="48dp"
-        android:selectAllOnFocus="true"
-        android:text="0.0"
-        app:layout_constraintEnd_toStartOf="@+id/EdtPV"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EdtEL" />
+        <EditText
+            android:id="@+id/EdtELEx"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:inputType="numberDecimal"
+            android:minHeight="48dp"
+            android:selectAllOnFocus="true"
+            android:text="0.0"
+            app:layout_constraintEnd_toStartOf="@+id/EdtPV"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/EdtEL" />
 
-    <TextView
-        android:id="@+id/textgas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="@string/dialog_tv_ga_meter"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/EdtGas"
-        app:layout_constraintEnd_toStartOf="@+id/EdtGas"
-        app:layout_constraintTop_toTopOf="@+id/EdtGas" />
+        <TextView
+            android:id="@+id/textgas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/dialog_tv_ga_meter"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/EdtGas"
+            app:layout_constraintEnd_toStartOf="@+id/EdtGas"
+            app:layout_constraintTop_toTopOf="@+id/EdtGas" />
 
-    <EditText
-        android:id="@+id/EdtGas"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:inputType="numberDecimal"
-        android:selectAllOnFocus="true"
-        android:text="0.0"
-        app:layout_constraintEnd_toStartOf="@+id/EdtPV2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EdtELEx" />
+        <EditText
+            android:id="@+id/EdtGas"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:inputType="numberDecimal"
+            android:selectAllOnFocus="true"
+            android:text="0.0"
+            app:layout_constraintEnd_toStartOf="@+id/EdtPV2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/EdtELEx" />
 
-    <TextView
-        android:id="@+id/textwater"
-        android:layout_width="55dp"
-        android:layout_height="21dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/dialog_tv_wa_meter"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/EdtWat"
-        app:layout_constraintEnd_toStartOf="@+id/EdtWat"
-        app:layout_constraintTop_toTopOf="@+id/EdtWat" />
+        <TextView
+            android:id="@+id/textwater"
+            android:layout_width="55dp"
+            android:layout_height="21dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/dialog_tv_wa_meter"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/EdtWat"
+            app:layout_constraintEnd_toStartOf="@+id/EdtWat"
+            app:layout_constraintTop_toTopOf="@+id/EdtWat" />
 
-    <EditText
-        android:id="@+id/EdtWat"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:inputType="numberDecimal"
-        android:selectAllOnFocus="true"
-        android:text="0.0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/RegistratieTijd" />
+        <EditText
+            android:id="@+id/EdtWat"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:inputType="numberDecimal"
+            android:selectAllOnFocus="true"
+            android:text="0.0"
+            app:layout_constraintBottom_toBottomOf="@+id/EdtEL"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/EdtEL" />
 
-    <TextView
-        android:id="@+id/textpv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="@string/dialog_tv_pv_meter"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/EdtPV"
-        app:layout_constraintEnd_toStartOf="@+id/EdtPV"
-        app:layout_constraintTop_toTopOf="@+id/EdtPV" />
+        <TextView
+            android:id="@+id/textpv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/dialog_tv_pv_meter"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/EdtPV"
+            app:layout_constraintEnd_toStartOf="@+id/EdtPV"
+            app:layout_constraintTop_toTopOf="@+id/EdtPV" />
 
-    <EditText
-        android:id="@+id/EdtPV"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:inputType="numberDecimal"
-        android:selectAllOnFocus="true"
-        android:text="0.0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EdtWat" />
+        <EditText
+            android:id="@+id/EdtPV"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:inputType="numberDecimal"
+            android:selectAllOnFocus="true"
+            android:text="0.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/EdtWat" />
 
-    <TextView
-        android:id="@+id/textpv2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="@string/dialog_tv_pv_meter2"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/EdtPV2"
-        app:layout_constraintEnd_toStartOf="@+id/EdtPV2"
-        app:layout_constraintTop_toTopOf="@+id/EdtPV2" />
+        <TextView
+            android:id="@+id/textpv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/dialog_tv_pv_meter2"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/EdtPV2"
+            app:layout_constraintEnd_toStartOf="@+id/EdtPV2"
+            app:layout_constraintTop_toTopOf="@+id/EdtPV2" />
 
-    <EditText
-        android:id="@+id/EdtPV2"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:inputType="numberDecimal"
-        android:minHeight="48dp"
-        android:selectAllOnFocus="true"
-        android:text="0.0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EdtPV" />
+        <EditText
+            android:id="@+id/EdtPV2"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:inputType="numberDecimal"
+            android:minHeight="48dp"
+            android:selectAllOnFocus="true"
+            android:text="0.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/EdtPV" />
 
-    <Button
-        android:id="@+id/buttonsave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:text="@android:string/ok"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EdtGas" />
+        <Button
+            android:id="@+id/buttonsave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:text="@android:string/ok"
+            app:layout_constraintBottom_toBottomOf="@+id/buttoncancel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/buttoncancel" />
 
-    <Button
-        android:id="@+id/buttoncancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:text="@android:string/cancel"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EdtGas" />
+        <Button
+            android:id="@+id/buttoncancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:text="@android:string/cancel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/EdtGas" />
 
-    <Button
-        android:id="@+id/buttonpopulate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/knop_populate"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttoncancel" />
+        <Button
+            android:id="@+id/buttonpopulate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/knop_populate"
+            app:layout_constraintBottom_toBottomOf="@+id/buttoncancel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/buttoncancel" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

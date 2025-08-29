@@ -3,6 +3,7 @@ package be.huyck.huisenergielogger.ui
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.graphics.Color
 
 import android.os.Bundle
 import android.util.Log
@@ -151,9 +152,11 @@ class GeefDataInFragment : Fragment() {
                         }
                         with(view.findViewById<TextView>(R.id.EdtWat)) {
                             text = response.body()!!.watermeter
+                            setTextColor(Color.RED)
                         }
                         with(view.findViewById<TextView>(R.id.EdtPV)) {
                             text = response.body()!!.elpvHmeter
+                            setTextColor(Color.RED)
                         }
                         with(view.findViewById<TextView>(R.id.EdtPV2)) {
                             text = response.body()!!.elpvGmeter

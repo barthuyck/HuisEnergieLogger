@@ -5,13 +5,14 @@ apply plugin: 'kotlin-android'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdk 34
+    compileSdk 36
     defaultConfig {
         applicationId "be.huyck.huisenergielogger"
-        minSdkVersion 30 // Android 11
-        targetSdkVersion 34
-        versionCode 24
-        versionName "5.4.0.0"
+        minSdk 32
+        targetSdk 36
+        // Android 11
+        versionCode 28
+        versionName "5.7.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     applicationVariants.configureEach { variant ->
@@ -29,13 +30,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility "21"
+        targetCompatibility "21"
     }
 
     kotlin {
-
-        jvmToolchain(17)
+        jvmToolchain(21)
     }
     namespace 'be.huyck.huisenergielogger'
 
@@ -43,40 +43,46 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.20"
-    implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'androidx.core:core-ktx:1.13.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    //implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.1.10'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.1.21'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.core:core-ktx:1.17.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference-ktx:1.2.1'
-    implementation 'com.google.firebase:firebase-auth-ktx:23.0.0'
-    implementation 'com.google.firebase:firebase-firestore-ktx:25.0.0'
-    implementation 'com.google.firebase:firebase-auth:23.0.0'
+
+
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.7.0'
     // Vanaf hier aangevuld
     // Kotlin
-    implementation "androidx.navigation:navigation-fragment-ktx:2.7.7"
-    implementation "androidx.navigation:navigation-ui-ktx:2.7.7"
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.9.3'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.9.3'
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.3'
-    implementation 'com.firebaseui:firebase-ui-auth:8.0.2'
-    //implementation 'com.google.firebase:firebase-firestore:24.7.0'
-    //implementation 'com.google.firebase:firebase-auth:22.1.1'
-    implementation platform('com.google.firebase:firebase-bom:33.1.1')
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.2'
+
+    implementation 'com.firebaseui:firebase-ui-auth:9.0.0'
+    implementation 'com.google.firebase:firebase-firestore:26.0.0'
+    //implementation 'com.google.firebase:firebase-auth:23.2.0'
+    //implementation platform('com.google.firebase:firebase-bom:33.10.0')
+
+    //implementation 'com.google.firebase:firebase-auth-ktx:23.2.0'
+    //implementation 'com.google.firebase:firebase-firestore-ktx:25.1.2'
+    //implementation 'com.google.firebase:firebase-auth:23.2.0'
+
     // Add the dependency for the Firebase Authentication library
     // When using the BoM, you don't specify versions in Firebase library dependencies
-    implementation("com.google.firebase:firebase-auth-ktx")
+    //implementation('com.google.firebase:firebase-auth-ktx:23.2.0')
 
     // Also add the dependency for the Google Play services library and specify its version
-    implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation('com.google.android.gms:play-services-auth:21.4.0') // 20.7.0
     implementation("androidx.core:core-splashscreen:1.0.1")
 
     // below dependency for using retrofit.
-    implementation 'com.squareup.retrofit2:retrofit:2.11.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.11.0'
+    implementation 'com.squareup.retrofit2:retrofit:3.0.0'
+    implementation 'com.squareup.retrofit2:converter-gson:3.0.0'
 
 
 
