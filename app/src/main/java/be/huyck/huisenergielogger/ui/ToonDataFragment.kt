@@ -42,7 +42,7 @@ class ToonDataFragment : Fragment(), RecyclerAdapter.OnGegevensitemListener {
 
         //initRecyclerView()
 
-        var myLayoutManager = LinearLayoutManager(activity)
+        var myLayoutManager = LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
         var dataRecyclerV = view.findViewById(R.id.dataRecycler) as androidx.recyclerview.widget.RecyclerView
         dataRecyclerV.layoutManager = myLayoutManager
 
